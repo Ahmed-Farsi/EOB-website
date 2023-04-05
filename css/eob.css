@@ -283,4 +283,112 @@ nav .menu li a:hover {
 	}
 	  
 
+#support .sup {
+	display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #2b2d30;
+    width: 100%;
+    padding: 87px;
+    position: relative;
+    color: #a5a7ad;
 }
+
+#support .sup h1{
+	color: #ffffff;
+	font-size: 36px;
+	margin-bottom: 20px;
+   }
+
+
+   #support p{
+	font-size: 18px;
+	line-height: 1.5;
+   }
+  
+  #support .left {
+	text-align: center;
+	flex-basis: 60%;
+	margin-bottom: 20px;
+	padding-right: 20px;
+  }
+  
+  #support .right {
+	flex-basis: 40%;
+	float: right;
+	text-align: right;
+  }
+
+  #easy-to-use .ety{
+	display: flex;
+    flex-direction: row;
+    background-color: #1d1f21;
+    color: #ffffff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 87px;
+    position: relative;
+	}
+	
+	#easy-to-use .left {
+	
+	margin-right: 12px;
+
+	}
+	
+	#easy-to-use .right {
+	width: 50%;
+	float: right;
+	text-align: center;
+	}
+	
+	#easy-to-use h1 {
+	font-size: 36px;
+	margin: 0 0 20px;
+	}
+	
+	#easy-to-use p {
+	font-size: 18px;
+	line-height: 1.5;
+	color: #a5a7ad;
+	}
+  
+	#lorem .lorem {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		background-color: #2b2d30;
+		width: 100%;
+		padding: 87px;
+		position: relative;
+		color: #a5a7ad;
+	}
+	
+	#lorem .lorem h1{
+		color: #ffffff;
+		font-size: 36px;
+		margin-bottom: 20px;
+	   }
+	
+	
+	   #lorem p{
+		font-size: 18px;
+		line-height: 1.5;
+	   }
+	  
+	  #lorem .left {
+		text-align: center;
+		flex-basis: 60%;
+		margin-bottom: 20px;
+		padding-right: 20px;
+	  }
+	  
+	  #lorem .right {
+		flex-basis: 40%;
+		float: right;
+		text-align: right;
+	  }
+
+	}
