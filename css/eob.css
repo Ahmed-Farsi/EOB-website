@@ -283,7 +283,7 @@ nav .menu li a:hover {
 	}
 	  
 
-#support .sup {
+#remote-support .rs {
 	display: flex;
     justify-content: space-between;
     align-items: center;
@@ -294,26 +294,26 @@ nav .menu li a:hover {
     color: #a5a7ad;
 }
 
-#support .sup h1{
+#remote-support .rs h1{
 	color: #ffffff;
 	font-size: 36px;
 	margin-bottom: 20px;
    }
 
 
-   #support p{
+   #remote-support p{
 	font-size: 18px;
 	line-height: 1.5;
    }
   
-  #support .left {
+  #remote-support .left {
 	text-align: center;
 	flex-basis: 60%;
 	margin-bottom: 20px;
 	padding-right: 20px;
   }
   
-  #support .right {
+  #remote-support .right {
 	flex-basis: 40%;
 	float: right;
 	text-align: right;
@@ -355,7 +355,7 @@ nav .menu li a:hover {
 	color: #a5a7ad;
 	}
   
-	#lorem .lorem {
+	#efficient-support .es {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
@@ -366,26 +366,26 @@ nav .menu li a:hover {
 		color: #a5a7ad;
 	}
 	
-	#lorem .lorem h1{
+	#efficient-support .es h1{
 		color: #ffffff;
 		font-size: 36px;
 		margin-bottom: 20px;
 	   }
 	
 	
-	   #lorem p{
+	   #efficient-support p{
 		font-size: 18px;
 		line-height: 1.5;
 	   }
 	  
-	  #lorem .left {
+	  #efficient-support .left {
 		text-align: center;
 		flex-basis: 60%;
 		margin-bottom: 20px;
 		padding-right: 20px;
 	  }
 	  
-	  #lorem .right {
+	  #efficient-support .right {
 		flex-basis: 40%;
 		float: right;
 		text-align: right;
@@ -987,7 +987,7 @@ nav .menu li a:hover {
 	}
 	  
 
-#support .sup {
+#remote-support .rs {
 	display: flex;
     justify-content: space-between;
     align-items: center;
@@ -998,26 +998,26 @@ nav .menu li a:hover {
     color: #a5a7ad;
 }
 
-#support .sup h1{
+#remote-support .rs h1{
 	color: #ffffff;
 	font-size: 36px;
 	margin-bottom: 20px;
    }
 
 
-   #support p{
+   #remote-support p{
 	font-size: 18px;
 	line-height: 1.5;
    }
   
-  #support .left {
+  #remote-support .left {
 	text-align: center;
 	flex-basis: 60%;
 	margin-bottom: 20px;
 	padding-right: 20px;
   }
   
-  #support .right {
+  #remote-support .right {
 	flex-basis: 40%;
 	float: right;
 	text-align: right;
@@ -1059,7 +1059,7 @@ nav .menu li a:hover {
 	color: #a5a7ad;
 	}
   
-	#lorem .lorem {
+	#efficient-support .es {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
@@ -1070,26 +1070,26 @@ nav .menu li a:hover {
 		color: #a5a7ad;
 	}
 	
-	#lorem .lorem h1{
+	#efficient-support .es h1{
 		color: #ffffff;
 		font-size: 36px;
 		margin-bottom: 20px;
 	   }
 	
 	
-	   #lorem p{
+	   #efficient-support p{
 		font-size: 18px;
 		line-height: 1.5;
 	   }
 	  
-	  #lorem .left {
+	  #efficient-support .left {
 		text-align: center;
 		flex-basis: 60%;
 		margin-bottom: 20px;
 		padding-right: 20px;
 	  }
 	  
-	  #lorem .right {
+	  #efficient-support .right {
 		flex-basis: 40%;
 		float: right;
 		text-align: right;
@@ -1760,7 +1760,7 @@ img {
 			}
 			  
 		
-		#support .sup {
+		#remote-support .rs {
 			display: flex;
 			justify-content: space-between;
 			align-items: center;
@@ -1772,7 +1772,7 @@ img {
 			color: #a5a7ad;
 		}
 		
-		#support .sup h1{
+		#remote-support .rs h1{
 			color: #ffffff;
 			font-size: 36px;
 			margin-bottom: 20px;
@@ -1780,17 +1780,17 @@ img {
 		   }
 		
 		
-		   #support p{
+		   #remote-support p{
 			font-size: 18px;
 			line-height: 1.5;
 		   }
 		  
-		  #support .left {
+		  #remote-support .left {
 			flex-basis: 60%;
 			margin-bottom: 20px;
 		  }
 		  
-		  #support .right {
+		  #remote-support .right {
 			flex-basis: 40%;
 			float: right;
 			text-align: right;
@@ -1830,7 +1830,7 @@ img {
 			margin-bottom: 20px;
 			}
 		  
-			#lorem .lorem {
+			#efficient-support .es {
 				display: flex;
 				justify-content: space-between;
 				align-items: center;
@@ -1841,7 +1841,7 @@ img {
 				color: #a5a7ad;
 			}
 			
-			#lorem .lorem h1{
+			#efficient-support .es h1{
 				margin-top: 20px;
 				color: #ffffff;
 				font-size: 36px;
@@ -1849,17 +1849,17 @@ img {
 			   }
 			
 			
-			   #lorem p{
+			   #efficient-support p{
 				font-size: 18px;
 				line-height: 1.5;
 			   }
 			  
-			  #lorem .left {
+			  #efficient-support .left {
 				text-align: center;
 				margin-bottom: 20px;
 			  }
 			  
-			  #lorem .right {
+			  #efficient-support .right {
 				flex-basis: 40%;
 				float: right;
 				text-align: right;

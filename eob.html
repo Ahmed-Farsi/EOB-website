@@ -1,66 +1,41 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <style>
-      @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@1,300&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,300;1,300&family=Roboto:wght@100&display=swap');
-    </style>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-    <!-- De titel van de webpagina-->
     <title>EOB - Product Website</title>
-     <!-- De verwijzing naar het CSS-bestand dat de opmaak van de webpagina bepaalt -->
     <link rel="stylesheet" type="text/css" href="css/eob.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@1,300&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,300;1,300&family=Roboto:wght@100&display=swap" rel="stylesheet">
   </head>
   <body>
-    
-    
     <header>
-    <!-- Het navigatiemenu van de webpagina -->
-        <nav class="navbar">
-          <!-- Het logo van de webpagina met een link naar de homepagina -->
-            <div class="brand-wrapper">
-              <a href="eob.html">
-                <img class="logo" src="images/LogoHeader-Transparent.png" alt="Logo">
-              </a> 
-            </div>
-           
-           <!-- De links naar de verschillende pagina's van de webpagina -->
-             <ul class="nav-menu">
-              <li><a href="eob.html">Home</a></li>
-              <li><a href="about.html">About</a></li>
-              <li><a href="#subs">Subscription</a></li>
-              <li><a href="contact.html">Contact</a></li>
-              
-              </ul> 
-
-              <button class="hamburger">
-                <div class="bar">
-
-                </div> 
-              </button>
-              
-            <!-- Een knoppen om in te loggen en te registreren-->
-            <div class="sign-btn">
-              <a href="https://app.engineeroutofthebox.com/Identity/Account/Login">          
-                <button class="menu-toggle">
-                  Login EOB
-                </button>
-              </a>
-              <a href="https://app.engineeroutofthebox.com/Identity/Account/Register?returnUrl=%2F">
-              <button class="menu-toggle">
-                Create Acc
-              </button>
-              </a>
-
-            </div>
-              
-        </nav>
-      
+      <nav class="navbar">
+        <div class="brand-wrapper">
+          <a href="eob.html">
+            <img class="logo" src="images/LogoHeader-Transparent.png" alt="Logo">
+          </a> 
+        </div>
+        <ul class="nav-menu">
+          <li><a href="eob.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="#subs">Subscription</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul> 
+        <button class="hamburger">
+          <div class="bar"></div>
+        </button>
+        <div class="sign-btn">
+          <a href="https://app.engineeroutofthebox.com/Identity/Account/Login">          
+            <button class="menu-toggle">Login EOB</button>
+          </a>
+          <a href="https://app.engineeroutofthebox.com/Identity/Account/Register?returnUrl=%2F">
+            <button class="menu-toggle">Create Acc</button>
+          </a>
+        </div>
+      </nav>
     </header>   
-
     <nav class="mobile-nav">
       <a href="eob.html">Home</a>
       <a href="about.html">About</a>
@@ -69,83 +44,63 @@
       <a href="https://app.engineeroutofthebox.com/Identity/Account/Login">Sign In</a>
       <a href="#">Sign Up</a>
     </nav>
-
     <main>
-      <!-- Het introductiegedeelte van de webpagina met een afbeelding en call-to-action knoppen -->
-          <section id="intro">
-            <div class="container">
-              <h2>Engineer-on-board:</h2>
-              <h1> <br>EOB brings the experts to you</h1>
-              <h3> Experience a game-changing solution with EOB - the remote support tool that will revolutionize the way you handle technical issues</h3>
-              <!-- Call-to-action knoppen -->
-              <div class="btn-home">
-                <a href="#" class="btn-sub">Get started</a>
-                <a href="about.html" class="btn-info">Learn more</a>
-              </div>
-              
-            </div>
-      <!-- Afbeelding bij het introductiegedeelte -->
-      <img class="EOB" src="images/HomeScreen.PNG" alt="EOB-afbeelding">
-    </section>
-    <!-- Het gedeelte van de webpagina met informatie over partners -->
-    <section id="investers">
-    <div class="partners">
-      <p>Partners</p>
-    </div>
-
-    </section>
-<!-- Het gedeelte van de webpagina met informatie over remote support -->
-    <section id="support">
-      <div class="sup">
-        <div class="left">
-          <h1>Support anytime, anywhere with Remote Support from Pro Control</h1>
-
-          <p> With Remote Support from Pro Control you can get help anytime, anywhere, without anyone having to be on site. This not only saves time and money, but is also more environmentally friendly.
-              Whether it's solving technical problems or providing support for using software,
-              our solution allows an experienced technician to watch remotely and help via audio, video and chat.
-              This way you can quickly get back to work and continue with your work.
-          </p>
-
+      <section id="intro">
+        <div class="container">
+          <h2>Engineer-on-board:</h2>
+          <h1>EOB brings the experts to you</h1>
+          <h3>Experience a game-changing solution with EOB - the remote support tool that will revolutionize the way you handle technical issues</h3>
+          <div class="btn-home">
+            <a href="#" class="btn-sub">Get started</a>
+            <a href="about.html" class="btn-info">Learn more</a>
+          </div>
         </div>
-        <div class="right">
-          <img src="images/online-support2.jpg" alt="placeholder image">
+        <img class="EOB" src="images/HomeScreen.PNG" alt="EOB-afbeelding">
+      </section>
+      <section id="investers">
+        <div class="partners">
+          <p>Partners</p>
         </div>
-      </div>
+      </section>
       
-    </section>
-
-    <!-- Het gedeelte van de webpagina met informatie over makkelijk EOB gebruikt kan worden. -->
-    <section id="easy-to-use">
-      <div class="ety">
-        <div class="left">
-          <img src="images/online-support1.jpg" alt="placeholder image">
+      <!-- Het gedeelte van de webpagina met informatie over remote support -->
+      <section id="remote-support">
+        <div class="rs">
+          <div class="left">
+            <h1>Support anytime, anywhere with Remote Support from Pro Control</h1>
+            <p>With Remote Support from Pro Control you can get help anytime, anywhere, without anyone having to be on site. This not only saves time and money, but is also more environmentally friendly. Whether it's solving technical problems or providing support for using software, our solution allows an experienced technician to watch remotely and help via audio, video and chat. This way you can quickly get back to work and continue with your work.</p>
+          </div>
+          <div class="right">
+            <img src="images/online-support2.jpg" alt="placeholder image">
+          </div>
         </div>
-        <div class="right">
-          <h1>Easy remote support with the EOB from Pro Control</h1>
-          <p> With the EOB from Pro Control, remote support becomes very easy. The engineer can communicate remotely with the employee on site via audio, video and chat functions, while maintaining control over the equipment. Using the EOB is simple and intuitive, allowing employees to be helped quickly without the need for a physical visit to the site. This not only saves time and money, but also contributes to a more sustainable and safer way of working.</p>
-        </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- Het gedeelte van de webpagina met informatie over remote support -->
-    <section id="lorem">
-      <div class="lorem">
-        <div class="left">
-          <h1>Efficient remote support with the portable EOB from Pro Control</h1>
-
-          <p> In addition, the handy thing about the EOB from Pro Control is that it is a portable device,
-            so it can be taken anywhere. This makes it possible to provide support quickly and efficiently,
-            wherever you are. Whether in a remote location or in a busy workplace, with the EOB you always have the right tools at hand to handle technical
-            to solve the problems.
-          </p>
-
+      <!-- Het gedeelte van de webpagina met informatie over makkelijk EOB gebruikt kan worden. -->
+      <section id="easy-to-use">
+        <div class="ety">
+          <div class="left">
+            <img src="images/online-support1.jpg" alt="placeholder image">
+          </div>
+          <div class="right">
+            <h1>Easy remote support with the EOB from Pro Control</h1>
+            <p>With the EOB from Pro Control, remote support becomes very easy. The engineer can communicate remotely with the employee on site via audio, video and chat functions, while maintaining control over the equipment. Using the EOB is simple and intuitive, allowing employees to be helped quickly without the need for a physical visit to the site. This not only saves time and money, but also contributes to a more sustainable and safer way of working.</p>
+          </div>
         </div>
-        <div class="right">
-          <img src="images/online-support3.jpg" alt="placeholder image">
+      </section>
+
+      <!-- Het gedeelte van de webpagina met informatie over efficiente remote support -->
+      <section id="efficient-support">
+        <div class="es">
+          <div class="left">
+            <h1>Efficient remote support with the portable EOB from Pro Control</h1>
+            <p>In addition, the handy thing about the EOB from Pro Control is that it is a portable device, so it can be taken anywhere. This makes it possible to provide support quickly and efficiently, wherever you are. Whether in a remote location or in a busy workplace, with the EOB you always have the right tools at hand to handle technical problems.</p>
+          </div>
+          <div class="right">
+            <img src="images/online-support3.jpg" alt="placeholder image">
+          </div>
         </div>
-      </div>
-      
-    </section>
+      </section>
 
 
    <!-- Het gedeelte van de webpagina met informatie over abbonomenten -->
