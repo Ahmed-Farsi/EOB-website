@@ -407,8 +407,8 @@ nav .menu li a:hover {
 	 
 	  #subscription .row {
 		padding: 70px 40px;
-    justify-content: center;
-    display: flex;
+		justify-content: center;
+		display: flex;
 	  }
 
 	  
@@ -452,8 +452,8 @@ nav .menu li a:hover {
 	margin-top: 0px;
 	margin-bottom: 12px;
 	font-family: Roboto;
-	color: rgb(242, 244, 247);
-	font-size: 32px;
+	color: white;
+	font-size: 39px;
 	line-height: 36px;
 	font-weight: 400;
 	text-transform: capitalize;
@@ -463,8 +463,8 @@ nav .menu li a:hover {
 	margin-top: 0px;
     margin-bottom: 15px;
     font-family: Roboto;
-    color: rgb(165, 167, 173);
-    font-size: 14px;
+    color: white;
+    font-size: 18px;
     line-height: 22px;
 }
 
@@ -507,6 +507,10 @@ nav .menu li a:hover {
 
 .contact {
     text-align: right;
+}
+
+.contact a{
+    color: #0ac278;
 }
 
 .price {
@@ -1156,8 +1160,8 @@ nav .menu li a:hover {
 	margin-top: 0px;
 	margin-bottom: 12px;
 	font-family: Roboto;
-	color: rgb(242, 244, 247);
-	font-size: 32px;
+	color: white;
+	font-size: 39px;
 	line-height: 36px;
 	font-weight: 400;
 	text-transform: capitalize;
@@ -1167,8 +1171,8 @@ nav .menu li a:hover {
 	margin-top: 0px;
     margin-bottom: 15px;
     font-family: Roboto;
-    color: rgb(165, 167, 173);
-    font-size: 14px;
+    color: white;
+    font-size: 18px;
     line-height: 22px;
 }
 
@@ -1211,6 +1215,10 @@ nav .menu li a:hover {
 
 .contact {
     text-align: right;
+}
+
+.contact a{
+    color: #0ac278;
 }
 
 .price {
@@ -1978,6 +1986,10 @@ img {
 		
 		.contact {
 			text-align: right;
+		}
+
+		.contact a{
+			color: #0ac278;
 		}
 		
 		.price {
