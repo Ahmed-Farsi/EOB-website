@@ -1,12 +1,12 @@
 #In deze code moet je user_id vervangen door de ID van de gebruiker die de Teams-vergadering plant en access_token vervangen door de toegangstoken van de gebruiker.
 
-Maak een Microsoft 365-account aan als je er nog geen hebt.
+#Maak een Microsoft 365-account aan als je er nog geen hebt.
 
-Registreer een nieuwe app in de Microsoft Azure-portal en maak een geheime sleutel aan. Hierdoor krijg je toegang tot de Microsoft Graph API.
+#Registreer een nieuwe app in de Microsoft Azure-portal en maak een geheime sleutel aan. Hierdoor krijg je toegang tot de Microsoft Graph API.
 
-Gebruik de Graph API om een Teams-vergadering te plannen en een link te genereren. Je hebt hiervoor de toegangstoken van de gebruiker nodig, dus zorg ervoor dat je de gebruiker hiervoor toestemming hebt gegeven.
+#Gebruik de Graph API om een Teams-vergadering te plannen en een link te genereren. Je hebt hiervoor de toegangstoken van de gebruiker nodig, dus zorg ervoor dat je de gebruiker hiervoor toestemming hebt gegeven.
 
-Maak een HTML-link aan met de gegenereerde Teams-vergaderlink en plaats deze op je webpagina.
+#aak een HTML-link aan met de gegenereerde Teams-vergaderlink en plaats deze op je webpagina.
 
 import requests
 import json
