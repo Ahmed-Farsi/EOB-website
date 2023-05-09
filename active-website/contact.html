@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@1,300&display=swap');
+      @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,300;1,300&family=Roboto:wght@100&display=swap');
+    </style>
+    <!-- De titel van de webpagina-->
+    <title>EOB - Product Website</title>
+    <!-- De verwijzing naar het CSS-bestand dat de opmaak van de webpagina bepaalt -->
+    <link rel="stylesheet" type="text/css" href="css/contact.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Abyssinica+SIL&family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <header>
+      <!-- Het navigatiemenu van de webpagina -->
+      <nav class="navbar">
+        <!-- Het logo van de webpagina met een link naar de homepagina -->
+        <div class="brand-wrapper">
+          <a href="eob.html">
+            <img class="logo" src="images/LogoHeader-Transparent.png" alt="Logo">
+          </a> 
+        </div>
+        <!-- De links naar de verschillende pagina's van de webpagina -->
+        <ul class="nav-menu">
+          <li><a href="eob.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="eob.html#subs">Subscription</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul> 
+        <button class="hamburger">
+          <div class="bar"></div> 
+        </button>
+        <!-- Een knoppen om in te loggen en te registreren-->
+        <div class="sign-btn">
+          <a href="https://app.engineeroutofthebox.com/Identity/Account/Login">          
+            <button class="menu-toggle">Login EOB</button>
+          </a>
+          <a href="https://app.engineeroutofthebox.com/Identity/Account/Register?returnUrl=%2F">
+            <button class="menu-toggle">Create Acc</button>
+          </a>
+        </div>
+      </nav>
+</header>
+
+<nav class="mobile-nav">
+  <a href="eob.html">Home</a>
+  <a href="about.html">About</a>
+  <a href="eob.html#subs">Subscription</a>
+  <a href="contact.html">Contact</a>
+  <a href="#">Sign In</a>
+  <a href="#">Sign Up</a>
+</nav>
+
+<main>
+  <div class="container">
+    <h1>Connect with us</h1>
+    <p>We would love to respond to all your questions and help you with your technical problems. <br> Feel free to get in touch with us.</p>
+    <div class="contact-box">
+      <div class="contact-left">
+        <h3>Send your request</h3>
+        <form>
+          <div class="input-row">
+            <div class="input-group">
+              <label for="name">Name</label>
+              <input type="name" maxlength="32" pattern="[A-Za-z]{1,32}" id="name" placeholder="John Amendo" required>
+            </div>
+            <div class="input-group">
+              <label for="phone">Phone</label>
+              <input type="tel" id="phone" placeholder="+31 612345678" pattern="[0-9]{10}" required>
+            </div>
+          </div>
+          <div class="input-row">
+            <div class="input-group">
+              <label for="email">Email</label>
+              <input type="email" id="email" placeholder="JohnAmendo@hotmail.com" required>
+            </div>
+            <div class="input-group">
+              <label for="subject">Subject</label>
+              <input type="text" id="subject" placeholder="Project Demo" required>
+            </div>
+          </div>
+          <div class="input-group">
+            <label for="message">Message</label>
+            <textarea id="message" rows="5" placeholder="Your Message"></textarea>
+          </div>
+          <button type="submit">SEND</button>
+        </form>
+      </div>
+      <div class="contact-right">
+        <h3>Reach Us</h3>
+        <table>
+          <tr>
+            <td>Email:</td>
+            <td>info@pro-control.nl</td>
+          </tr>
+          <tr>
+            <td>Phone:</td>
+            <td>0299 – 630 690</td>
+          </tr>
+          <tr>
+            <td>Address:</td>
+            <td>Pro Control Process Automation BV<br>M.C. van Voordenstraat 5<br>NL 1483 GB De Rijp</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+  <!-- <section class="faq">
+    <h2>Frequently Asked Questions</h2>
+    <div class="question">
+      <h3>How can I create an account?</h3> Question 1
+      <p>To create an account, go to the registration page and fill out the form with your details.</p>
+    </div>
+    <div class="question">
+      <h3>How can I cancel my subscription?</h3> Question 2
+      <p>You can cancel your subscription by logging into your account and going to the 'Subscriptions' page. Then, click on 'Cancel' next to the subscription you wish to terminate.</p>
+    </div>
+    <div class="question">
+      <h3>How can I contact customer support?</h3> Question 3
+      <p>You can contact our customer support team via the contact form on our website or by sending an email to support@pro-control.nl</p>
+    </div> -->
+    <!-- add more questions here if needed -->
+  <!-- </section> -->
+</main>
+<footer>
+  <!-- Het gedeelte van de footer -->
+  <div class="section footer wf-section">
+    <div class="w-container">
+      <div class="w-row">
+        <div class="footer-column w-col w-col-3">
+          <h4>COMPANY</h4>
+          <ul role="list" class="w-list-unstyled">
+            <li><a href="eob.html" class="footer-link">Home</a></li>
+            <li><a href="about.html" class="footer-link">About</a></li>
+            <li><a href="#subs" class="footer-link">Subscription</a></li>
+          </ul>
+        </div>
+        <div class="footer-column w-col w-col-3">
+          <h4>get help</h4>
+          <ul role="list" class="w-list-unstyled">
+            <li><a href="#" class="footer-link">Frequently Asked Questions</a></li>
+            <li><a href="#" class="footer-link">Forum</a></li>
+            <li><a href="contact.html" class="footer-link">Contact Us</a></li>
+          </ul>
+        </div>
+        <div class="footer-column w-col w-col-3"><h4>Boring Stuff</h4>
+          <ul role="list" class="w-list-unstyled">
+            <li><a href="#" class="footer-link">Privacy Policy</a></li>
+            <li><a href="#" class="footer-link">Terms of Service</a></li>
+          </ul>
+        </div>
+        <div class="footer-column w-col w-col-3">
+          <div><h4>Socials</h4>
+            <a href="https://www.linkedin.com/company/pro-control-process-automation-b-v-/mycompany/" target="_blank" class="social-link w-inline-block">
+            <img src="https://cdn.iconscout.com/icon/free/png-256/linkedin-82-434743.png?f=webp&w=256" alt=""></a>
+            <a href="https://www.youtube.com/@procontrolprocessautomatio212" target="_blank" class="social-link w-inline-block">
+              <img src="https://spng.pngfind.com/pngs/s/320-3200493_white-youtube-logo-transparent-youtube-circle-icon-size.png" alt=""></a></div>
+            <div class="logo-text footer">Engineer-on-board</div>
+          </div>
+        </div>
+      </div>
+    </div>
+</footer>
+<script src="js/hmMenu.js"></script>
+</body>
+</html>

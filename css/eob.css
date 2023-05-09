@@ -88,12 +88,23 @@
     color: #009eff;
     text-decoration: underline;
   }
+
+  .btn-link{
+	text-decoration: none;
+	color: white;
+  }
+
   
   @media screen and (max-width: 768px) {
     .menu-toggle {
       display: block;
     }
   
+	.btn-link{
+		text-decoration: none;
+		color: white;
+	}
+
     .nav-menu {
       display: none;
       flex-direction: column;
@@ -707,9 +718,11 @@ img {
 }
 
 @media only screen and (min-width: 600px) {
-	.hamburger{
-		display: none;
-	}
+
+.hamburger{
+	display: none;
+}
+
 /* navbar styles */
 .navbar {
     border: 2px solid black;
@@ -796,6 +809,12 @@ img {
     color: #009eff;
     text-decoration: underline;
   }
+
+  .btn-link{
+	text-decoration: none;
+	color: white;
+  }
+
   
   @media screen and (max-width: 768px) {
     .menu-toggle {

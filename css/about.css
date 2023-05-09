@@ -235,19 +235,6 @@ nav .menu li a:hover {
 	font-size: 18px;
 	line-height: 1.5;
    }
-  
-  #support .left {
-	text-align: center;
-	flex-basis: 60%;
-	margin-bottom: 20px;
-	padding-right: 20px;
-  }
-  
-  #support .right {
-	flex-basis: 40%;
-	float: right;
-	text-align: right;
-  }
 
   
   #information-eob{
@@ -307,7 +294,7 @@ a{
 		padding-right: 10px;
 	}
 
-	  footer{
+	footer{
 		background: linear-gradient(45deg, black, transparent);
 		/* background-color: #2b2d30; */
 	}
