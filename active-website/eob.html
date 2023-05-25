@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
   <head>
     <meta charset="UTF-8"> <!-- De tekst codering van de webpagina -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge"> <!-- De versie van Internet Explorer -->
@@ -10,11 +11,15 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital@1&family=Roboto+Condensed:ital,wght@0,300;1,300&family=Roboto:ital,wght@0,100;1,400&display=swap" rel="stylesheet">
   </head>
-  <body>
-    <div id="progress">
-      <span id="progress-value">&#x1F815;</span>
-    </div>
 
+  <body>
+
+    <!-- Scroll to the top btn -->
+  <div id="progress">
+    <span id="progress-value">&#x1F815;</span>
+  </div>
+
+  <!-- header -->
   <header>
     <nav class="navbar"> <!-- Het navigatie gedeelte van de webpagina -->
       <div class="brand-wrapper">
@@ -24,15 +29,15 @@
       </div>
       <ul class="nav-menu"> <!-- De lijst met links in het navigatie menu -->
         <li><a href="eob.html">Home</a></li>
-        <li><a href="about2.html">About</a></li>
-        <li><a href="#subs">Subscription</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="eob.html#subs">Subscription</a></li>
         <li><a href="contact.html">Contact</a></li>
       </ul> 
       <button class="hamburger"> <!-- De knop voor het menu op mobiele apparaten -->
         <div class="bar"></div>
       </button>
       <div class="sign-btn">
-        <button class="menu-toggle"><a class="btn-link" href="https://app.engineeroutofthebox.com/Identity/Account/Login"> Login EOB</a></button>  <!-- De knop voor het inloggen -->
+        <button class="menu-toggle"><a class="btn-link" href="https://app.engineeroutofthebox.com/Identity/Account/Login"> My EOB</a></button>  <!-- De knop voor het inloggen -->
         <button class="menu-toggle"><a class="btn-link" href="https://app.engineeroutofthebox.com/Identity/Account/Register?returnUrl=%2F">Create Acc</a></button>  <!-- De knop voor het registreren -->
       </div>
     </nav>
@@ -41,7 +46,9 @@
 <nav class="mobile-nav"> <!-- Het menu voor mobiele apparaten -->
   <a href="eob.html">Home</a>
   <a href="about.html">About</a>
-  <a href="#subs">Subscription</a>
+  <a href="eob.html#subs" onclick="location.href='#subs'; location.reload(true); return false;">Ga naar subs</a>
+
+
   <a href="contact.html">Contact</a>
   <a href="https://app.engineeroutofthebox.com/Identity/Account/Login">Sign In </a> <!-- De link naar het inloggen -->
   <a href="#">Sign Up</a>  <!-- De link naar het registreren -->
@@ -58,13 +65,11 @@
             <a href="about.html" class="btn-info">Learn more</a>
           </div>
           </div>
-          
+
           <div>
-            <img class="EOB" src="images/hero-img.svg" alt="EOB-afbeelding">
+            <img class="EOB" src="images/Homescreen-img.svg" alt="EOB-afbeelding">
           </div>
-          
         </div>
-       
       </div>
       
 
@@ -86,7 +91,7 @@
             <div class="price-feature deactivate">4G</div>
             <div class="price-feature">Email Support</div>
           </div>
-          <a href="payement.html" class="get-started-link pricing">Get Started Now&nbsp;&nbsp;&nbsp;❯</a>
+          <a href="mailto:info@engineeroutofthebox.nl?subject=Uitnodiging%20Teams%20vergadering&body=Beste%20heer/mevrouw,%0D%0A%0D%0AU bent uitgenodigd voor een Teams-vergadering. Klik op onderstaande link om de uitnodiging te openen:%0D%0A%0D%0Ahttps://teams.microsoft.com/l/meeting/new?subject=Vergadering%20met%20Medewerker&attendees=naam@bedrijf.com&location=Online%0D%0A%0D%0AGroeten,%0D%0AJouw%20naam" class="get-started-link pricing">Get Started Now&nbsp;&nbsp;&nbsp;❯</a>
         </div>
       </div>
       <div class="w-col w-col-4">
@@ -100,7 +105,7 @@
             <div class="price-feature deactivate">4G</div>
             <div class="price-feature">Email Support</div>
           </div>
-          <a href="payement.html" class="get-started-link pricing">Get Started Now&nbsp;&nbsp;&nbsp;❯</a>
+          <a href="mailto:info@engineeroutofthebox.nl?subject=Uitnodiging%20Teams%20vergadering&body=Beste%20heer/mevrouw,%0D%0A%0D%0AU bent uitgenodigd voor een Teams-vergadering. Klik op onderstaande link om de uitnodiging te openen:%0D%0A%0D%0Ahttps://teams.microsoft.com/l/meeting/new?subject=Vergadering%20met%20Medewerker&attendees=naam@bedrijf.com&location=Online%0D%0A%0D%0AGroeten,%0D%0AJouw%20naam" class="get-started-link pricing">Get Started Now&nbsp;&nbsp;&nbsp;❯</a>
         </div>
       </div>
       <div class="w-col w-col-4">
@@ -114,13 +119,100 @@
             <div class="price-feature">4G</div>
             <div class="price-feature">Priority Email Support</div>
           </div>
-          <a href="payement.html" class="get-started-link pricing">Get Started Now&nbsp;&nbsp;&nbsp;❯</a>
+          <a href="mailto:info@engineeroutofthebox.nl?subject=Uitnodiging%20Teams%20vergadering&body=Beste%20heer/mevrouw,%0D%0A%0D%0AU bent uitgenodigd voor een Teams-vergadering. Klik op onderstaande link om de uitnodiging te openen:%0D%0A%0D%0Ahttps://teams.microsoft.com/l/meeting/new?subject=Vergadering%20met%20Medewerker&attendees=naam@bedrijf.com&location=Online%0D%0A%0D%0AGroeten,%0D%0AJouw%20naam" class="get-started-link pricing">Get Started Now&nbsp;&nbsp;&nbsp;❯</a>
         </div>
       </div>
     </div>
-    <p class="contact">Need Help? Reach us at <a href="mailto:sales@pro-control.nl">sales@pro-control.nl</a></p>
+    <p class="contact">Need Help? Reach us at <a href="mailto:info@engineeroutofthebox.nl">info@engineeroutofthebox.nl</a></p>
   </div>
 </div>
+
+<!-- stappen voor de abonnement worden hier laten zien -->
+<div class="steps">
+  <div class="container3">
+    <!-- titel voor de sectie -->
+  <h2 class="steps-title">
+    <span class="steps-title__text">Steps</span> 
+    <span aria-hidden="true" class="steps-title__bg-text">Steps for Subscription</span>
+  </h2>
+
+  <div class="slider">
+    <!-- een progress bar zodat je kan zien wanneer de volgende slide is -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
+  rel="stylesheet">
+
+  <section class="step-wizard">
+    <ul class="step-wizard-list">
+      <li class="step-wizard-item">
+        <a href="#" class="step-link" data-step-index="0">
+          <span class="progress-count">1</span>
+          <span class="progress-label">Intake</span>
+        </a>
+      </li>
+      <li class="step-wizard-item">
+        <a href="#" class="step-link" data-step-index="1">
+          <span class="progress-count">2</span>
+          <span class="progress-label">Planning</span>
+        </a>
+      </li>
+      <li class="step-wizard-item">
+        <a href="#" class="step-link" data-step-index="2">
+          <span class="progress-count">3</span>
+          <span class="progress-label">Documentation</span>
+        </a>
+      </li>
+      <li class="step-wizard-item">
+        <a href="#" class="step-link" data-step-index="3">
+          <span class="progress-count">4</span>
+          <span class="progress-label">Delivery</span>
+        </a>
+      </li>
+    </ul>
+  </section>
+
+
+<!-- Hier zijn de stappen -->
+  <div class="step intake">
+    <div class="step-content">
+      <h2>Intake</h2>
+      <br>
+      <p>Tijdens de intake, die online via Microsoft Teams of op aanvraag via e-mail kan plaatsvinden, maken we kennis en bepalen we welke ondersteuning nodig is. <br><br> De intake kan ook op locatie plaatsvinden, indien gewenst. We luisteren naar de persoonlijke situatie en doelen, stellen vragen en creëren een vertrouwelijke omgeving. <br><br> Op basis hiervan stellen we een passend ondersteuningsplan op. Neem contact met ons op voor een intakegesprek en ontdek hoe we u kunnen helpen.</p>
+    </div>
+    <div class="step-image">
+      <img class="step-img" src="images/intake-steps.png" alt="Intake">
+    </div>
+  </div>
+  <div class="step planning">
+    <div class="step-content">
+      <h2>Planning</h2>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut pretium velit id augue feugiat, eu volutpat velit interdum.</p>
+    </div>
+    <div class="step-image">
+      <img class="step-img" src="images/agenda-steps.jpg" alt="Planning">
+    </div>
+  </div>
+  <div class="step documentation">
+    <div class="step-content">
+      <h2>Documentation</h2>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut pretium velit id augue feugiat, eu volutpat velit interdum.</p>
+    </div>
+    <div class="step-image">
+      <img class="step-img" src="images/documentation-steps.jpg" alt="Documentation">
+    </div>
+  </div>
+  <div class="step delivery">
+    <div class="step-content">
+      <h2>Delivery</h2>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut pretium velit id augue feugiat, eu volutpat velit interdum.</p>
+    </div>
+    <div class="step-image">
+      <img class="step-img" src="images/delivery-stepss.jpg" alt="Levering">
+    </div>
+  </div>
+</div>
+</div>
+</div>
+  
 <section id="model" class="model">
   <div class="container2">
     <h2 class="section-title">
@@ -130,7 +222,7 @@
     <div class="cards">
       <div class="card anim anim__move-right anim__opac anim__animate" data-uid="IEXk7E87oG">
         <p><strong class="model__title">What is the EOB?</strong><br>The EOB is an innovative tool developed by Pro Control to provide remote support. 
-          It stands for "Engineer On Board" and allows engineers to remotely troubleshoot issues by guiding the on-site employee through audio, 
+          It stands for "Engineer out of the Box" and allows engineers to remotely troubleshoot issues by guiding the on-site employee through audio, 
           video, and chat. This is a cost-effective, environmentally-friendly, and secure solution that is becoming increasingly popular among businesses
           for providing quick and efficient support to customers.</p>
             <video class="lazyload" autoplay="" muted="" loop=""><source data-src="video\mp4\vid1.mp4" type="video/mp4" src="video\mp4\vid1.mp4">
@@ -168,19 +260,19 @@
     <div class="cu-container" style="margin-top:60px">
       <!-- sort by title -->
       <div class="wp-block-column is-layout-flow wp-container-17">
-        <figure class="wp-block-image size-large"><img decoding="async" src="http://localhost/wordpress/wp-content/themes/astra/inc/assets/images/starter-content/passionate.svg" alt="" class="wp-image-162"></figure>
+        <figure class="wp-block-image size-large"><img decoding="async" src="images\passionate.svg" alt="" class="wp-image-162"></figure>
         <h3 class="wp-block-heading" style="margin-top:16px">Sustainable and Cost-Effective</h3>
         <p>On-site visits can be time-consuming, expensive, and harmful to the environment. The EOB enables remote support, reducing the need for physical visits and thus cutting down on costs and emissions.</p>
       </div>
       
       <div class="wp-block-column is-layout-flow wp-container-19">
-        <figure class="wp-block-image size-large"><img decoding="async" src="http://localhost/wordpress/wp-content/themes/astra/inc/assets/images/starter-content/support.svg" alt="" class="wp-image-164"></figure>
+        <figure class="wp-block-image size-large"><img decoding="async" src="images\support.svg" alt="" class="wp-image-164"></figure>
         <h3 class="wp-block-heading" style="margin-top:16px">User-Friendly and Flexible</h3>
         <p>With its intuitive design and easy installation, the EOB is user-friendly and flexible, allowing you to provide support to employees around the world quickly and efficiently.</p>
       </div>
       
       <div class="wp-block-column is-layout-flow wp-container-18">
-        <figure class="wp-block-image size-large"><img decoding="async" src="http://localhost/wordpress/wp-content/themes/astra/inc/assets/images/starter-content/professional.svg" alt="" class="wp-image-163"></figure>
+        <figure class="wp-block-image size-large"><img decoding="async" src="images\professional.svg" alt="" class="wp-image-163"></figure>
         <h3 class="wp-block-heading" style="margin-top:16px">Secure and Private</h3>
         <p>The EOB uses a secure system to ensure maximum privacy and data protection. You can be confident that all communication and data exchange will be safeguarded, even when dealing with sensitive information or supporting employees in remote locations.</p>
       </div>
@@ -205,7 +297,7 @@
         <h4>COMPANY</h4>
         <ul role="list" class="w-list-unstyled">
           <li><a href="eob.html" class="footer-link">Home</a></li>
-          <li><a href="about2.html" class="footer-link">About</a></li>
+          <li><a href="about.html" class="footer-link">About</a></li>
           <li><a href="eob.html#subs" class="footer-link">Subscription</a></li>
         </ul>
       </div>
@@ -229,9 +321,10 @@
           <img src="https://iconsplace.com/wp-content/uploads/_icons/7909ff/256/png/linkedin-icon-13-256.png" alt=""></a>
           <a href="https://www.youtube.com/@procontrolprocessautomatio212" target="_blank" class="social-link w-inline-block">
             <img src="https://iconsplace.com/wp-content/uploads/_icons/800080/256/png/youtube-2-icon-13-256.png" alt=""></a></div>
-          <div class="logo-text footer">Engineer-on-board</div></div></div></div></div>
+          <div class="logo-text footer">Engineer out of the Box</div></div></div></div></div>
         </footer>
         <script src="js/scrolltop.js"></script>
-      <script src="js/hamMenu.js"></script>
+      <script src="js/steps.js"></script>
+    <script src="js/hamMenu.js"></script>
   </body>
 </html>

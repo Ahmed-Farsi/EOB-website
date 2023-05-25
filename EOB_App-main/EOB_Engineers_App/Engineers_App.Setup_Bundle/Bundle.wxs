@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
+     xmlns:bal="http://schemas.microsoft.com/wix/BalExtension">
+	<Bundle Name="EOB Engineers App" Version="1.0.0.0" Manufacturer="Pro Control" UpgradeCode="3dd41ee4-5408-41a1-9c78-14fea42f4941">
+
+    <BootstrapperApplicationRef Id="WixStandardBootstrapperApplication.RtfLicense">
+      <bal:WixStandardBootstrapperApplication
+        LicenseFile="..\Engineers_App.Setup\Assets\License.rtf"
+        LogoFile="..\Engineers_App.Setup\Assets\Logo.png"
+        SuppressOptionsUI="yes"
+        SuppressRepair="yes"/>
+    </BootstrapperApplicationRef>
+
+		<Chain>
+      <MsiPackage SourceFile="..\Engineers_App.Setup\bin\$(var.Configuration)\EOB Engineers App Setup.msi" 
+                  DisplayInternalUI="yes"/>
+
+      <MsiPackage SourceFile="ZeroTier One.msi"
+                  DisplayName="Dependencies">
+        <MsiProperty Name="ZTHEADLESS" Value="Yes"/>
+      </MsiPackage>
+    </Chain>
+
+	</Bundle>
+</Wix>

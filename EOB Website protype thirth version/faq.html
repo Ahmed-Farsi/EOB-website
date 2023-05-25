@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8"> <!-- De tekst codering van de webpagina -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"> <!-- De versie van Internet Explorer -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- De schermgrootte voor mobiele apparaten -->
+    <title>EOB - Product Website</title>
+    <link rel="stylesheet" type="text/css" href="css/faq.css"> <!-- Link naar de CSS stylesheet -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@1,300&display=swap" rel="stylesheet"> <!-- Link naar de Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,300;1,300&family=Roboto:wght@100&display=swap" rel="stylesheet"> <!-- Link naar de Google Fonts -->
+  </head>
+  <body>
+    <header>
+      <nav class="navbar"> <!-- Het navigatie gedeelte van de webpagina -->
+        <div class="brand-wrapper">
+          <a href="eob.html"> <!-- De link naar de Home pagina -->
+            <img class="logo" src="images/LogoHeader-Transparent.png" alt="Logo">
+          </a> 
+        </div>
+        <ul class="nav-menu"> <!-- De lijst met links in het navigatie menu -->
+          <li><a href="eob.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="#subs">Subscription</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul> 
+        <button class="hamburger"> <!-- De knop voor het menu op mobiele apparaten -->
+          <div class="bar"></div>
+        </button>
+        <div class="sign-btn">
+          <a href="https://app.engineeroutofthebox.com/Identity/Account/Login">          
+            <button class="menu-toggle">Login EOB</button>  <!-- De knop voor het inloggen -->
+          </a>
+          <a href="https://app.engineeroutofthebox.com/Identity/Account/Register?returnUrl=%2F">
+            <button class="menu-toggle">Create Acc</button>  <!-- De knop voor het registreren -->
+          </a>
+        </div>
+      </nav>
+    </header>   
+    <nav class="mobile-nav"> <!-- Het menu voor mobiele apparaten -->
+      <a href="eob.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="#subs">Subscription</a>
+      <a href="contact.html">Contact</a>
+      <a href="https://app.engineeroutofthebox.com/Identity/Account/Login">Sign In </a> <!-- De link naar het inloggen -->
+      <a href="#">Sign Up</a>  <!-- De link naar het registreren -->
+    </nav>
+    <main>
+        <section class="faq">
+          <h2>Frequently Asked Questions</h2>
+          <div class="question">
+            <h3>How can I create an account?</h3> <!-- Question 1 -->
+            <p>To create an account, go to the registration page and fill out the form with your details.</p>
+          </div>
+          <div class="question">
+            <h3>How can I cancel my subscription?</h3> <!-- Question 2 -->
+            <p>You can cancel your subscription by logging into your account and going to the 'Subscriptions' page. Then, click on 'Cancel' next to the subscription you wish to terminate.</p>
+          </div>
+          <div class="question">
+            <h3>How can I contact customer support?</h3> <!-- Question 3 -->
+            <p>You can contact our customer support team via the contact form on our website or by sending an email to support@eob.com.</p>
+          </div>
+          <!-- add more questions here if needed -->
+        </section>
+        
+        <section class="contact-form">
+          <h2>Contact Us</h2>
+          <form>
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+            
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+            
+            <label for="message">Message:</label>
+            <textarea id="message" name="message" rows="5" required></textarea>
+            
+            <button type="submit">Submit</button>
+          </form>
+        </section>
+      </main>
+      

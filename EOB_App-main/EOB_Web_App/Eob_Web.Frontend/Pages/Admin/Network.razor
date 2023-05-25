@@ -1,0 +1,392 @@
+﻿@page "/network/{network_id}/{page:int?}"
+@attribute [Authorize(Roles = User_Roles.Admin)]
+
+@inject IZeroTier_Service _zeroTier_Service
+@inject IEob_Service _eob_Service
+@inject ZeroTier_Mapper _zeroTier_Mapper
+
+@inject NavigationManager _navigation_Manager
+
+<div class="m-3 text-center">
+    <h3>Network overview</h3>
+    @if (_load_Status != Load_Status.Loading)
+    {
+        <h4>Network name: @_network.config.name</h4>
+        <h4>Network ID: @_network.id</h4>
+    }
+</div>
+
+@if (_load_Status == Load_Status.Success)
+{
+    <h4>Subnets:</h4>
+    <ul class="w-25 ml-2 mt-2 list-group text-dark">
+        @foreach (var route in _network.config.routes)
+        {
+            <li class="list-group-item">
+                @route.target
+                <button @onclick="(() => Delete_Subnet(route)) "class="btn btn-danger float-right">Delete</button>
+            </li>
+        }
+    </ul>
+
+    <EditForm Model="@_network_View" OnValidSubmit="Save_Subnet" class="card card-body mt-2 inputForm">
+        <DataAnnotationsValidator />
+        <div class="form-group row">
+            <label for="Subnet" class="col-md-2 col-form-label">Add subnet:</label>
+            <div class="col-md-5">
+                <InputText type="text" id="Subnet" class="inputBoxStripe noMarginBottom" @bind-Value="_network_View.Subnet" />
+                <ValidationMessage For="@(() => _network_View.Subnet)" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-md-5">
+                <button type="submit" class="btn btn-success">Submit</button>
+            </div>
+        </div>
+    </EditForm>
+}
+
+@if (_load_Status != Load_Status.Loading
+   && _form_Status != Form_Status.None
+   && _form_Status != Form_Status.Disabled)
+{
+    if (_form_Status == Form_Status.Edit)
+    {
+        <h4>@_form_Status - @_node_View.Node_Name</h4>
+    }
+    else
+    {
+        <h4>@_form_Status</h4>
+    }
+
+    <EditForm Model="@_node_View" OnValidSubmit="Save" class="card card-body mt-4 inputForm">
+        <DataAnnotationsValidator />
+        <div class="form-group row">
+            <label for="Node_Name" class="col-md-2 col-form-label">(Optional) Node name</label>
+            <div class="col-md-10">
+                <InputText type="text" id="Node_Name" class="inputBoxStripe noMarginBottom" @bind-Value="_node_View.Node_Name" />
+                <ValidationMessage For="@(() => _node_View.Node_Name)" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="Node_Description" class="col-md-2 col-form-label">(Optional) Node Description</label>
+            <div class="col-md-10">
+                <InputText type="text" id="Node_Description" class="inputBoxStripe noMarginBottom" @bind-Value="_node_View.Node_Description" />
+                <ValidationMessage For="@(() => _node_View.Node_Description)" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="Authorized" class="col-md-2 col-form-label">Authorized</label>
+            <div class="col-md-10">
+                <InputCheckbox type="checkbox" id="Authorized" class="checkBox noMarginBottom" @bind-Value="_node_View.Authorized" />
+                <ValidationMessage For="@(() => _node_View.Authorized)" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-md-10">
+                <button type="button" class="btn btn-danger" @onclick="(() => Form_Cancel())">Cancel</button>
+                <button type="submit" class="btn btn-success">Submit</button>
+            </div>
+        </div>
+    </EditForm>
+}
+
+@if (_load_Status == Load_Status.Success)
+{
+    @if (!_nodes.Paginate(_pagination).Any())
+    {
+        _navigation_Manager.NavigateTo($"network/{Network_Id}/1");
+    }
+
+    <div class="table-responsive">
+        <table class="table table-dark table-striped">
+            <thead>
+                <tr>
+                    <th>Node Name</th>
+                    <th>Node ID</th>
+                    <th>Node IP</th>
+                    <th>Status</th>
+                    <th>Authorized</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var node in _nodes)
+                {
+                    <tr>
+                        @if (string.IsNullOrEmpty(node.name))
+                        {
+                            <td class="text-warning">Not assigned yet...</td>
+                        }
+                        else
+                        {
+                            if (node.config.activeBridge)
+                            {
+                                <td class="text-info">@node.name</td>
+                            }
+                            else
+                            { 
+                                <td>@node.name</td>
+                            }
+                        }
+
+                        @if (string.IsNullOrEmpty(node.config.ipAssignments.FirstOrDefault()))
+                        {
+                            if (node.config.activeBridge)
+                            {
+                                <td class="text-info">@node.nodeId</td>
+                                <td class="text-info">192.168.99.100</td>
+                            }
+                            else
+                            {
+                                <td>@node.nodeId</td>
+                                <td class="text-warning">Not assigned yet...</td>
+                            }
+                        }
+                        else
+                        { 
+                            <td>@node.nodeId</td>
+                            <td>
+                                @foreach (string ip in node.config.ipAssignments)
+                                { 
+                                    <p>@ip</p>
+                                }
+                            </td>
+                        }
+
+                        @if (node.online)
+                        {
+                            <td class="greenText"><b>Online</b></td>
+                        }
+                        else
+                        {
+                            if (Unix_Date(node.lastOnline) != DateTime.UnixEpoch)
+                            {
+                                <td class="redText"><b>Offline</b>,<br> last seen @Unix_Date(node.lastOnline)</td>
+                            }
+                            else
+                            {
+                                <td class="redText"><b>Offline</b>,<br> last seen <b>Never</b></td>
+                            }
+                        }
+
+                        @if (node.config.authorized)
+                        {
+                            <td class="greenText"><b>@node.config.authorized</b></td>
+                        }
+                        else
+                        {
+                            <td class="redText"><b>@node.config.authorized</b></td>
+                        }
+
+                        <td>
+                            <div class="btn-group">
+                                <button class="btn btn-primary" @onclick="(() => Form_Edit(node))">Edit</button>
+                                <button class="btn btn-danger" @onclick="(() => Popup_Open(Popup_Status.Delete, node))">Delete</button>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <p class="text-info"><i>*Blue text means that it's a bridge AKA the EOB*</i></p>
+    </div>
+
+    <Pagination_Select
+        Page_Name="@_page_Name"
+        Page_Number="@_pagination.Page_Number"
+        Total_Items="@_nodes.Count"
+        Page_Size="@_pagination.Page_Size">
+    </Pagination_Select>
+}
+else
+{
+    <p><em>@_load_Status</em></p>
+}
+
+@switch (_popup_Status)
+{
+    case Popup_Status.Delete:
+        <Popup
+           Status="_popup_Status"
+           Text="Are you sure you want to delete this item?"
+           Ok_Text="Delete"
+           On_Ok="(() => Delete(_node_Selection))"
+           On_Cancel="(() => Popup_Close())">
+        </Popup>
+        break;
+
+    case Popup_Status.Ip_Range_Error:
+        <Popup
+           Status="Popup_Status.Error"
+           Text="The given ip range doesn't match with subnet"
+           On_Ok="(() => Popup_Close())">
+        </Popup>
+        break;
+
+    case Popup_Status.Exists:
+        <Popup
+           Status="Popup_Status.Error"
+           Text="The given subnet already exists"
+           On_Ok="(() => Popup_Close())">
+        </Popup>
+        break;
+}
+
+@code {
+    private List<ZT_Node> _nodes = new List<ZT_Node>();
+
+    private ZT_Node_View _node_View = new ZT_Node_View();
+    private ZT_Node _node_Selection = new ZT_Node();
+    private ZT_Network_View _network_View = new ZT_Network_View();
+    private ZT_Network _network = new ZT_Network();
+    private Pagination _pagination = new Pagination();
+
+    private Load_Status _load_Status;
+    private Form_Status _form_Status;
+    private Popup_Status _popup_Status;
+    private string _page_Name;
+    private string _search = string.Empty;
+
+
+    [Parameter]
+    public string Network_Id { get; set; }
+
+    [Parameter]
+    public int Page
+    {
+        get => _pagination.Page_Number;
+        set
+        {
+            if (_pagination.Page_Number != value)
+            {
+                _pagination.Page_Number = value;
+            }
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        _page_Name = $"network/{Network_Id}";
+
+        if (Page == 0)
+            Page = 1;
+
+        await Refresh();
+    }
+
+    protected async Task Refresh()
+    {
+        _nodes = await _zeroTier_Service.Get_All_Nodes(Network_Id);
+        _network = await _zeroTier_Service.Get_Network(Network_Id);
+
+        if (_nodes.Any())
+            _load_Status = Load_Status.Success;
+        else
+            _load_Status = Load_Status.Empty;
+
+        _form_Status = Form_Status.None;
+        _node_View = new();
+        _network_View = new();
+    }
+
+    //Obsolete
+    private async Task Save()
+    {
+        var eob = await _eob_Service.Get_By_Node_Id(_node_View.Node_Id);
+        var network = await _zeroTier_Service.Get_Network(_node_View.Network_Id);
+        string subnet = network.config.routes.FirstOrDefault().target;
+
+        if (!Ip_Helper.Check_Ip_Address(_node_View.Node_Ip, subnet))
+        {
+            Popup_Open(Popup_Status.Ip_Range_Error);
+            return;
+        }
+
+        var node = await _zeroTier_Service.Get_Node(_node_View.Network_Id, _node_View.Node_Id);
+        node.description = _node_View.Node_Description;
+        node.name = _node_View.Node_Name;
+        node.config.authorized = _node_View.Authorized;
+
+        if (eob != null && _node_View.Node_Id == eob.Node_Id)
+        {
+            eob.Node_Name = _node_View.Node_Name;
+            await _eob_Service.Update(eob);
+        }
+
+        await _zeroTier_Service.Update_Node(node);
+        await Refresh();
+    }
+
+    private async Task Save_Subnet()
+    {
+        if (_network.config.routes.Any(x => x.target == _network_View.Subnet))
+        {
+            Popup_Open(Popup_Status.Exists);
+            return;
+        }
+
+        var routes = _network.config.routes;
+        Array.Resize(ref routes, routes.Length + 1);
+        routes[routes.Length - 1] = new Routes { target = _network_View.Subnet };
+        _network.config.routes = routes;
+
+        _network_View = new();
+        await _zeroTier_Service.Update_Network(_network);
+        await Refresh();
+    }
+
+    private async Task Delete(ZT_Node node)
+    {
+        await _zeroTier_Service.Delete_Node(node.networkId, node.nodeId);
+        Popup_Close();
+        await Refresh();
+    }
+
+    private async Task Delete_Subnet(Routes route)
+    {
+        int subnet_Index = Array.IndexOf(_network.config.routes, route);
+
+        _network.config.routes = _network.config.routes
+            .Where((source, i) => i != subnet_Index)
+            .ToArray();
+
+        await _zeroTier_Service.Update_Network(_network);
+        await Refresh();
+    }
+
+    private DateTime Unix_Date(long unix_Epoch)
+    {
+        return DateTimeOffset.FromUnixTimeMilliseconds(unix_Epoch).DateTime;
+    }
+
+    private void Form_New()
+    {
+        _form_Status = Form_Status.New;
+        _node_View = new();
+    }
+
+    private void Form_Edit(ZT_Node node)
+    {
+        _zeroTier_Mapper.Model_To_View(node, _node_View);
+        _form_Status = Form_Status.Edit;
+    }
+
+    private void Form_Cancel()
+    {
+        _form_Status = Form_Status.None;
+        _node_View = new();
+    }
+
+    private void Popup_Open(Popup_Status state, ZT_Node node = null)
+    {
+        _popup_Status = state;
+        _node_Selection = node;
+    }
+
+    private void Popup_Close()
+    {
+        _popup_Status = Popup_Status.None;
+        _node_Selection = new();
+    }
+}

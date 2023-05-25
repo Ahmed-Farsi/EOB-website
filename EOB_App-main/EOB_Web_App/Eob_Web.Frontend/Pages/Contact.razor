@@ -1,0 +1,85 @@
+﻿@page "/contact"
+
+@inject IJob_Service _job_Service
+@inject IUser_Service _user_Service
+
+<div class="m-3 text-center">
+    <h3>Contact</h3>
+</div>
+
+<EditForm Model="@_contact_View" OnValidSubmit="Save" class="card card-body mt-4 inputForm">
+    <DataAnnotationsValidator />
+    <div class="form-group row">
+        <label for="Customer_Name" class="col-md-2 col-form-label">Name</label>
+        <div class="col-md-10">
+            <InputText type="text" id="Customer_Name" class="inputBoxStripe noMarginBottom" @bind-Value="_contact_View.Customer_Name" />
+            <ValidationMessage For="@(() => _contact_View.Customer_Name)" />
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="Customer_Email" class="col-md-2 col-form-label">Email</label>
+        <div class="col-md-10">
+            <InputText type="text" id="Customer_Email" class="inputBoxStripe noMarginBottom" @bind-Value="_contact_View.Email_Address" />
+            <ValidationMessage For="@(() => _contact_View.Email_Address)" />
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="Subject" class="col-md-2 col-form-label">Subject</label>
+        <div class="col-md-10">
+            <InputText type="text" id="Subject" class="inputBoxStripe noMarginBottom" @bind-Value="_contact_View.Subject" />
+            <ValidationMessage For="@(() => _contact_View.Subject)" />
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="Message" class="col-md-2 col-form-label">Message</label>
+        <div class="col-md-10">
+            <InputTextArea rows="10" type="text" id="Message" class="inputBoxStripe noMarginBottom" @bind-Value="_contact_View.Message" />
+            <ValidationMessage For="@(() => _contact_View.Message)" />
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-md-10">
+            <button type="submit" class="btn btn-success">Submit</button>
+        </div>
+    </div>
+    <p class="greenText">@_status</p>
+</EditForm>
+
+@code {
+    Contact_View _contact_View = new Contact_View();
+    List<string> _emails = new List<string>();
+    private string _status = string.Empty;
+    private bool _sent;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Refresh();
+    }
+
+    private async Task Refresh()
+    {
+        _contact_View = new();
+        _emails = await _user_Service.Get_All_By_Recieve_Email();
+    }
+
+    private async Task Save()
+    {
+        if (_sent)
+            return;
+
+        string message = $@"Customer Name: <b>{_contact_View.Customer_Name}</b></br>
+                            Customer Email: <b>{_contact_View.Email_Address}</b></br>
+                            Subject: <b>{_contact_View.Subject}</b></br>
+                            Message: <b>{_contact_View.Message}</b></br></br>
+
+                            This email was send to the following admins:</br>
+                            {string.Join(",</br>", _emails)}";
+
+
+        BackgroundJob.Enqueue(() => _job_Service.Email_Contact(_emails, message));
+
+        _sent = true;
+        _status = "Email sent!";
+        await Refresh();
+    }
+}

@@ -1,0 +1,113 @@
+﻿@if (Status == Popup_Status.Error)
+{
+    <div class="modal fade show" style="display:block; background-color:rgba(10,10,10,.8);" role="dialog">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title">Error</h5>
+                </div>
+
+                <div class="modal-body">
+                    <p>@Text</p>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" @onclick="@Popup_Ok">Ok</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+}
+
+@if (Status == Popup_Status.Delete)
+{
+    <div class="modal fade show" style="display:block; background-color:rgba(10,10,10,.8);" role="dialog">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title">Warning</h5>
+                </div>
+
+                <div class="modal-body">
+                    <p>@Text</p>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" @onclick="@Popup_Ok">@Ok_Text</button>
+                    <button type="button" class="btn btn-primary" @onclick="@Popup_Cancel">Cancel</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+}
+
+@if (Status == Popup_Status.Data)
+{
+    <style>
+        .modal-dialog {
+            overflow-y: initial !important;
+        }
+
+        .modal-body {
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+    </style>
+
+    <div class="modal fade show" style="display:block; background-color:rgba(10,10,10,.8);" role="dialog">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title">View</h5>
+                </div>
+
+                <div class="modal-body">
+                    <ul class="list-group">
+                        @ChildContent
+                    </ul>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" @onclick="@Popup_Ok">@Ok_Text</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+}
+
+
+@code {
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    [Parameter]
+    public string Text { get; set; }
+
+    [Parameter]
+    public string Ok_Text { get; set; }
+
+    [Parameter]
+    public Popup_Status Status { get; set; }
+
+    [Parameter]
+    public EventCallback<bool> On_Ok { get; set; }
+
+    [Parameter]
+    public EventCallback<bool> On_Cancel { get; set; }
+
+    private Task Popup_Cancel()
+    {
+        return On_Cancel.InvokeAsync(true);
+    }
+
+    private Task Popup_Ok()
+    {
+        return On_Ok.InvokeAsync(true);
+    }
+}

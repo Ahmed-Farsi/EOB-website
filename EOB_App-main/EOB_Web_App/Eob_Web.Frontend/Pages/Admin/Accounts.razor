@@ -1,0 +1,464 @@
+﻿@page "/accounts/{page:int?}"
+@attribute [Authorize(Roles = User_Roles.Admin)]
+
+@inject IUser_Service _user_Service
+@inject ICompany_Service _company_Service
+@inject IGroup_Service _group_Service
+@inject User_Mapper _user_Mapper
+
+@inject UserManager<ApplicationUser> _user_Manager
+@inject RoleManager<IdentityRole> _role_Manager
+@inject AuthenticationStateProvider authentication_State_Provider
+@inject NavigationManager _navigation_Manager
+
+<div class="m-3 text-center">
+    <h3>Accounts</h3>
+</div>
+
+@if (_load_Status != Load_Status.Loading)
+{
+    foreach (var user in _users)
+    {
+        if (user.Role_Name == User_Roles.Company_Admin 
+            && !user.Verified)
+        { 
+            <div class="alert alert-primary" role="alert">
+                New company admin (@user.Email_Address) registered.
+                <button type="button" class="btn btn-primary" @onclick="(() => Verify_User(user))">Verify</button>
+                <button type="button" class="btn btn-danger" @onclick="(() => Popup_Open(Popup_Status.Delete, user))">Delete</button>
+            </div>
+        }
+    }
+}
+
+@if (_load_Status != Load_Status.Loading
+   && _form_Status != Form_Status.None)
+{
+    <h4>Edit role - @_user_View.Email_Address</h4>
+    <EditForm Model="@_user_View" OnValidSubmit="Save" class="card card-body mt-5 inputForm">
+        <DataAnnotationsValidator />
+        <div class="form-group row">
+            <label for="Role_Id" class="col-md-2 col-form-label">Role</label>
+            <div class="col-md-10">
+                <InputSelect id="Role_Id" class="inputBoxStripe noMarginBottom" @bind-Value="_user_View.Role_Name">
+                    <option value="">Select role...</option>
+                    <option value="@User_Roles.Admin">Admin</option>
+                    <option value="@User_Roles.Company_Admin">Company admin</option>
+                    <option value="@User_Roles.Employee">Employee</option>
+                    <option value="@User_Roles.New_User">New user</option>
+                </InputSelect>
+                <ValidationMessage For="@(() => _user_View.Role_Name)" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="Company_Id" class="col-md-2 col-form-label">Company</label>
+            <div class="col-md-10">
+                <InputSelect id="Company_Id" class="inputBoxStripe noMarginBottom"
+                    Value="@_user_View.Company_Id"
+                    ValueExpression="@(() => _user_View.Company_Id)"
+                    ValueChanged="@((int value) => Get_User_Group(value))">
+
+                    <option value="0">None</option>
+                    @foreach (var company in _companies)
+                    { 
+                        <option value="@company.Id">@company.Name</option>
+                    }
+                </InputSelect>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="Groups" class="col-md-2 col-form-label">Groups</label>
+            <div class="col-md-10">
+                <Group_Multi_Select 
+                  Selected="_selected_Groups" 
+                  Deselected="_deselected_Groups">
+                </Group_Multi_Select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="Verified" class="col-md-2 col-form-label">Verified</label>
+            <div class="col-md-10">
+                <InputCheckbox type="checkbox" id="Verified" class="checkBox noMarginBottom" @bind-Value="_user_View.Verified" />
+            </div>
+        </div>
+        @if (_user_View.Role_Name == User_Roles.Admin)
+        {
+            <div class="form-group row">
+                <label for="Admin_Recieve_Email" class="col-md-2 col-form-label">(Admin only) Email Notifications*</label>
+                <div class="col-md-10">
+                    <InputCheckbox type="checkbox" id="Admin_Recieve_Email" class="checkBox noMarginBottom" @bind-Value="_user_View.Admin_Recieve_Email" />
+                </div>
+            </div>
+            <p><i>*Get notified by email when a user registers a company</i></p>
+        }
+        <div class="form-group row">
+            <div class="col-md-10">
+                <button type="button" class="btn btn-danger" @onclick="(() => Form_Cancel())">Cancel</button>
+                <button type="submit" class="btn btn-success">Submit</button>
+            </div>
+        </div>
+    </EditForm>
+}
+
+@if (_load_Status == Load_Status.Success)
+{
+    @if (!_users.Paginate(_pagination).Any())
+    {
+        _navigation_Manager.NavigateTo("accounts/1");
+    }
+
+    <form class="m-2" @onsubmit="Search">
+        <input type="text" placeholder="Search..." id="Search" class="inputBoxStripe noMarginBottom" @bind="_search" />
+        <button type="submit" class="btn btn-success">Search</button>
+    </form>
+
+    <div class="table-responsive">
+        <table class="table table-dark table-striped">
+            <thead>
+                <tr>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Company</th>
+                    <th>Groups</th>
+                    <th>Verified</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var user in _users.Paginate(_pagination))
+                {
+                    <tr>
+                        <td>@user.Email_Address</td>
+                        <td>@user.Role_Name</td>
+
+                        @if (user.Company_Id.HasValue)
+                        {
+                            <td>@user.Company.Name</td>
+                        }
+                        else
+                        { 
+                            <td>None</td>
+                        }
+
+                        @if (user.Groups.Any())
+                        {
+                            <td><button @onclick="(() => Popup_Open(Popup_Status.Data, user))" class="btn btn-primary">View</button></td>
+                        }
+                        else
+                        { 
+                            <td>None</td>
+                        }
+
+                        <td>@user.Verified</td>
+                        <td>
+                            <div class="btn-group">
+                                <button class="btn btn-primary" @onclick="(() => Form_Edit(user))">Edit</button>
+                                <button class="btn btn-danger" disabled="@(user.Role_Name == User_Roles.Admin)" @onclick="(() => Popup_Open(Popup_Status.Delete, user))">Delete</button>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <Pagination_Select
+        Page_Name="accounts"
+        Page_Number="@_pagination.Page_Number"
+        Total_Items="@_users.Count"
+        Page_Size="@_pagination.Page_Size">
+    </Pagination_Select>
+}
+else
+{
+    <p><em>@_load_Status</em></p>
+}
+
+@switch (_popup_Status)
+{
+    case Popup_Status.Delete:
+        <Popup
+            Status="_popup_Status"
+            Text="Are you sure you want do delete this item?"
+            Ok_Text="Delete"
+            On_Ok="(() => Delete(_user_Selection))"
+            On_Cancel="(() => Popup_Close())">
+        </Popup>
+        break;
+
+    case Popup_Status.Foreign_Key_Error:
+        <Popup
+            Status="Popup_Status.Error"
+            Text="The user you're trying to remove has groups attached to it. Please remove them first."
+            On_Ok="(() => Popup_Close())">
+        </Popup>
+        break;
+
+    case Popup_Status.Verified_New_User:
+        <Popup
+            Status="Popup_Status.Error"
+            Text="New user is not allowed to be verified."
+            On_Ok="(() => Popup_Close())">
+        </Popup>
+        break;
+
+    case Popup_Status.Unverified_Admin:
+        <Popup
+            Status="Popup_Status.Error"
+            Text="Admin is required to be verified."
+            On_Ok="(() => Popup_Close())">
+        </Popup>
+        break;
+
+    case Popup_Status.No_Company:
+        <Popup
+            Status="Popup_Status.Error"
+            Text="This role requires to have a company."
+            On_Ok="(() => Popup_Close())">
+        </Popup>
+        break;
+
+    case Popup_Status.New_User_Company:
+        <Popup
+            Status="Popup_Status.Error"
+            Text="New user should have no company."
+            On_Ok="(() => Popup_Close())">
+        </Popup>
+        break;
+
+    case Popup_Status.Data:
+        <Popup Status="_popup_Status" Ok_Text="Ok" On_Ok="(() => Popup_Close())">
+            <ul class="list-group">
+                @foreach (var group in _user_Selection.Groups)
+                { 
+                    <li class="list-group-item">@group.Name</li>
+                }
+            </ul>
+        </Popup>
+        break;
+}
+
+
+@code {
+    [CascadingParameter]
+    private Task<AuthenticationState> _authentication_State_Task { get; set; }
+
+    private List<User> _users = new List<User>();
+    private List<ApplicationUser> _application_Users = new List<ApplicationUser>();
+    private List<Company> _companies = new List<Company>();
+    private List<Group> _groups = new List<Group>();
+    private List<Group> _selected_Groups = new List<Group>();
+    private List<Group> _deselected_Groups = new List<Group>();
+
+    private User_View _user_View = new User_View();
+    private User _user_Selection = new User();
+    private Pagination _pagination = new Pagination();
+
+    private Load_Status _load_Status;
+    private Form_Status _form_Status;
+    private Popup_Status _popup_Status;
+    private string _search = string.Empty;
+
+    [Parameter]
+    public int Page
+    {
+        get => _pagination.Page_Number;
+        set
+        {
+            if (_pagination.Page_Number != value)
+            {
+                _pagination.Page_Number = value;
+            }
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (Page == 0)
+            Page = 1;
+
+        await Refresh();
+    }
+
+    protected async Task Refresh()
+    {
+        _users = await _user_Service.Get_All();
+        _application_Users = _user_Manager.Users.ToList();
+        _companies = await _company_Service.Get_All();
+
+        foreach (var user in _users)
+        {
+            if (!user.Company_Id.HasValue)
+            {
+                user.Company = new Company();
+            }
+        }
+
+        if (_users.Any())
+            _load_Status = Load_Status.Success;
+        else
+            _load_Status = Load_Status.Empty;
+
+        _user_View = new();
+        _form_Status = Form_Status.None;
+    }
+
+    private async Task Save()
+    {
+        var user = _user_Mapper.View_To_Model(_user_View);
+        var application_User = _application_Users.Find(x => x.UserId == _user_View.Id);
+        var roles = await _user_Manager.GetRolesAsync(application_User);
+        var claims = await _user_Manager.GetClaimsAsync(application_User);
+
+        await _user_Manager.RemoveFromRolesAsync(application_User, roles);
+        await _user_Manager.AddToRoleAsync(application_User, _user_View.Role_Name);
+
+        if (user.Role_Name == User_Roles.Employee && !user.Company_Id.HasValue ||
+            user.Role_Name == User_Roles.Company_Admin && !user.Company_Id.HasValue)
+        {
+            Popup_Open(Popup_Status.No_Company);
+            return;
+        }
+
+        if (user.Role_Name == User_Roles.New_User && user.Company_Id.HasValue)
+        {
+            Popup_Open(Popup_Status.New_User_Company);
+            return;
+        }
+
+        // add/remove verified userclaim
+        if (user.Verified)
+        {
+            if (user.Role_Name == User_Roles.New_User)
+            {
+                Popup_Open(Popup_Status.Verified_New_User);
+                return;
+            }
+
+            if (!claims.Any(x => x.Type == "verified"))
+                await _user_Manager.AddClaimAsync(application_User, new Claim("verified", "true"));
+        }
+        else
+        {
+            if (user.Role_Name == User_Roles.Admin)
+            {
+                Popup_Open(Popup_Status.Unverified_Admin);
+                return;
+            }
+
+            await _user_Manager.RemoveClaimAsync(application_User, new Claim("verified", "true"));
+        }
+
+        await _user_Service.Update(user);
+
+        // remove current groups that belongs to user incase admin changes company
+        await _user_Service.Delete_All_User_Group(user);
+
+        foreach (var group in _selected_Groups)
+        {
+            var user_Group = new User_Group_Mapping
+            {
+                User_Id = user.Id,
+                Group_Id = group.Id
+            };
+
+            await _user_Service.Create_User_Group(user_Group);
+        }
+
+        await Refresh();
+    }
+
+    private async Task Verify_User(User user)
+    {
+        var application_User = _application_Users.Find(x => x.UserId == user.Id);
+        await _user_Manager.AddClaimAsync(application_User, new Claim("verified", "true"));
+
+        user.Verified = true;
+        await _user_Service.Update(user);
+
+        await Refresh();
+    }
+
+    private async Task Delete(User user)
+    {
+        var application_User = _application_Users.Find(x => x.UserId == user.Id);
+        bool result = await _user_Service.Delete(user.Id);
+        if (!result)
+        {
+            Popup_Open(Popup_Status.Foreign_Key_Error);
+            return;
+        }
+
+        await _user_Manager.DeleteAsync(application_User);
+
+        Popup_Close();
+        await Refresh();
+    }
+
+    private async Task Get_User_Group(int company_Id)
+    {
+        _user_View.Company_Id = company_Id;
+        _selected_Groups = new();
+        _deselected_Groups = new();
+
+        if (_user_View.Company_Id == 0)
+            return;
+
+        var user = _users.Find(x => x.Id == _user_View.Id);
+
+        _deselected_Groups = await _group_Service.Get_All_By_Company_Id(company_Id);
+        _selected_Groups = user.Groups
+            .Where(x => x.Company_Id == company_Id)
+            .ToList();
+
+        foreach (var group in _selected_Groups)
+        {
+            _deselected_Groups.RemoveAll(x => x.Id == group.Id);
+        }
+    }
+
+    private async Task Form_Edit(User user)
+    {
+        _selected_Groups = new();
+        _deselected_Groups = new();
+
+        if (user.Company_Id.HasValue)
+        {
+            _deselected_Groups = await _group_Service.Get_All_By_Company_Id(user.Company_Id.Value);
+            _selected_Groups = user.Groups
+                .Where(x => x.Company_Id == user.Company_Id)
+                .ToList();
+
+            foreach (var group in _selected_Groups)
+            {
+                _deselected_Groups.RemoveAll(x => x.Id == group.Id);
+            }
+        }
+
+        _user_Mapper.Model_To_View(user, _user_View);
+        _form_Status = Form_Status.Edit;
+    }
+
+    private void Form_Cancel()
+    {
+        _user_View = new();
+        _form_Status = Form_Status.None;
+    }
+
+    private void Popup_Open(Popup_Status state, User user = null)
+    {
+        _popup_Status = state;
+        _user_Selection = user;
+    }
+
+    private void Popup_Close()
+    {
+        _popup_Status = Popup_Status.None;
+        _user_Selection = new();
+    }
+
+    private async Task Search()
+    {
+        _users = await _user_Service.Search(_search);
+    }
+}

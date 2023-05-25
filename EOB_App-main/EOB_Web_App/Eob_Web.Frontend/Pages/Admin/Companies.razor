@@ -1,0 +1,290 @@
+﻿@page "/companies/{page:int?}"
+@page "/companies/selected/{selected_Id:int?}"
+@attribute [Authorize(Roles = User_Roles.Admin)]
+
+@inject ICompany_Service _company_Service
+@inject Company_Mapper _company_Mapper
+
+@inject NavigationManager _navigation_Manager
+
+<div class="m-3 text-center">
+    <h3>Companies</h3>
+</div>
+
+<div class="m-3 text-center">
+    <button type="button" class="btn btn-primary" @onclick="(() => Form_New())">Add company</button>
+</div>
+
+@if (_load_Status != Load_Status.Loading
+  && _form_Status != Form_Status.None)
+{
+    if (_form_Status == Form_Status.Edit)
+    {
+        <h4>@_form_Status - @_company_View.Name</h4>
+    }
+    else
+    {
+        <h4>@_form_Status</h4>
+    }
+
+    <EditForm Model="@_company_View" OnValidSubmit="Save" class="card card-body mt-5 inputForm">
+        <DataAnnotationsValidator />
+        <div class="form-group row">
+            <label for="Name" class="col-md-2 col-form-label">Company Name</label>
+            <div class="col-md-10">
+                <InputText type="text" id="Name" class="inputBoxStripe noMarginBottom" @bind-Value="_company_View.Name" />
+                <ValidationMessage For="@(() => _company_View.Name)" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="Address" class="col-md-2 col-form-label">Address</label>
+            <div class="col-md-10">
+                <InputText type="text" id="Address" class="inputBoxStripe noMarginBottom" @bind-Value="_company_View.Address" />
+                <ValidationMessage For="@(() => _company_View.Address)" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="Email_Address" class="col-md-2 col-form-label">Email</label>
+            <div class="col-md-10">
+                <InputText type="text" id="Email_Address" class="inputBoxStripe noMarginBottom" @bind-Value="_company_View.Email_Address" />
+                <ValidationMessage For="@(() => _company_View.Email_Address)" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="Phone_Number" class="col-md-2 col-form-label">Phone Number</label>
+            <div class="col-md-10">
+                <InputText type="text" id="Phone_Number" class="inputBoxStripe noMarginBottom" @bind-Value="_company_View.Phone_Number" />
+                <ValidationMessage For="@(() => _company_View.Phone_Number)" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-md-10">
+                <button type="button" class="btn btn-danger" @onclick="(() => Form_Cancel())">Cancel</button>
+                <button type="submit" class="btn btn-success">Submit</button>
+            </div>
+        </div>
+    </EditForm>
+}
+
+@if (_load_Status == Load_Status.Success)
+{
+    @if (!_companies.Paginate(_pagination).Any())
+    {
+        _navigation_Manager.NavigateTo("companies/1");
+    }
+
+    <form class="m-2" @onsubmit="Search">
+        <input type="text" placeholder="Search..." id="Search" class="inputBoxStripe noMarginBottom" @bind="_search" />
+        <button type="submit" class="btn btn-success">Search</button>
+    </form>
+
+    <div class="table-responsive">
+        <table class="table table-dark table-striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Addres</th>
+                    <th>Email</th>
+                    <th>Phone Number</th>
+                    <th>Invite Code</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var company in _companies.Paginate(_pagination))
+                {
+                    <tr style="background:@Get_Selected_Color(company.Id)">
+                        <td>@company.Name</td>
+                        <td>@company.Address</td>
+                        <td>@company.Email_Address</td>
+                        <td>@company.Phone_Number</td>
+                        <td>@company.Invite_Code</td>
+                        <td>
+                            <div class="btn-group">
+                                <button class="btn btn-primary" @onclick="(() => Form_Edit(company))">Edit</button>
+                                <button class="btn btn-danger" @onclick="(() => Popup_Open(Popup_Status.Delete, company))">Delete</button>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <Pagination_Select 
+        Page_Name="companies"
+        Page_Number="@_pagination.Page_Number"
+        Total_Items="@_companies.Count"
+        Page_Size="@_pagination.Page_Size">
+    </Pagination_Select>
+}
+else
+{
+    <p><em>@_load_Status</em></p>
+}
+
+@switch (_popup_Status)
+{
+    case Popup_Status.Delete:
+        <Popup Status="_popup_Status"
+               Text="Are you sure you want to delete this item?"
+               Ok_Text="Delete"
+               On_Ok="(() => Delete(_company_Selection))"
+               On_Cancel="(() => Popup_Close())">
+        </Popup>
+        break;
+
+    case Popup_Status.Foreign_Key_Error:
+        <Popup Status="Popup_Status.Error"
+               Text="The company you're trying to remove has EOB, groups, employees or accounts attached to it. Please remove them first."
+               On_Ok="(() => Popup_Close())">
+        </Popup>
+        break;
+
+    case Popup_Status.Exists:
+        <Popup Status="Popup_Status.Error"
+               Text="Company with the name already exists."
+               On_Ok="(() => Popup_Close())">
+        </Popup>
+        break;
+}
+
+
+@code {
+    private List<Company> _companies = new List<Company>();
+
+    private Company_View _company_View = new Company_View();
+    private Company _company_Selection = new Company();
+    private Pagination _pagination = new Pagination();
+
+    private Load_Status _load_Status;
+    private Form_Status _form_Status;
+    private Popup_Status _popup_Status;
+    private string _search = string.Empty;
+
+    [Parameter]
+    public int Selected_Id { get; set; }
+
+    [Parameter]
+    public int Page
+    {
+        get => _pagination.Page_Number;
+        set
+        {
+            if (_pagination.Page_Number != value)
+            {
+                _pagination.Page_Number = value;
+            }
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (Page == 0)
+            Page = 1;
+
+        await Refresh();
+    }
+
+    protected async Task Refresh()
+    {
+        _companies = await _company_Service.Get_All();
+
+        if (_companies.Any())
+        {
+            if (Selected_Id != 0)
+            {
+                int index = _companies.FindIndex(x => x.Id == Selected_Id);
+                Page = Pagination_Helper.Get_Page(index, _pagination);
+            }
+
+            _load_Status = Load_Status.Success;
+        }
+        else
+        {
+            _load_Status = Load_Status.Empty;
+        }
+
+        _company_View = new();
+        _form_Status = Form_Status.None;
+    }
+
+    private async Task Save()
+    {
+        var company = _company_Mapper.View_To_Model(_company_View);
+        company.Invite_Code = Guid.NewGuid();
+
+        if (_form_Status == Form_Status.New)
+        {
+            if (_companies.Any(x => x.Name == company.Name))
+            {
+                Popup_Open(Popup_Status.Exists);
+                return;
+            }
+
+            await _company_Service.Create(company);
+        }
+        if (_form_Status == Form_Status.Edit)
+        { 
+            await _company_Service.Update(company);
+        }
+
+        await Refresh();
+    }
+
+    private async Task Delete(Company company)
+    {
+        bool result = await _company_Service.Delete(company.Id);
+        if (!result)
+        {
+            Popup_Open(Popup_Status.Foreign_Key_Error);
+            return;
+        }
+
+        Popup_Close();
+        await Refresh();
+    }
+
+    private void Form_New()
+    {
+        _company_View = new();
+        _form_Status = Form_Status.New;
+    }
+
+    private void Form_Edit(Company company)
+    {
+        _company_Mapper.Model_To_View(company, _company_View);
+        _form_Status = Form_Status.Edit;
+    }
+
+    private void Form_Cancel()
+    {
+        _company_View = new();
+        _form_Status = Form_Status.None;
+    }
+
+    private void Popup_Open(Popup_Status state, Company company = null)
+    {
+        _popup_Status = state;
+        _company_Selection = company;
+    }
+
+    private void Popup_Close()
+    {
+        _popup_Status = Popup_Status.None;
+        _company_Selection = new();
+    }
+
+    private string Get_Selected_Color(int id)
+    {
+        if (id == Selected_Id)
+            return "#62666a";
+
+        return string.Empty;
+    }
+
+    private async Task Search()
+    {
+        _companies = await _company_Service.Search(_search);
+    }
+}

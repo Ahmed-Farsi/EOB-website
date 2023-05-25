@@ -1,0 +1,54 @@
+﻿<div class="multiple-selector">
+    <ul class="selectable-ul">
+        <b>Unselected groups</b>
+        @foreach (var item in Deselected)
+        {
+            <li @onclick="@(() => Select(item))">@item.Name</li>
+        }
+    </ul>
+
+    <div class="multiple-selector-buttons">
+        <button type="button" class="btn btn-primary" @onclick="Select_All">&raquo;</button>
+        <button type="button" class="btn btn-primary" @onclick="Deselect_All">&laquo;</button>
+    </div>
+
+    <ul class="selectable-ul">
+        <b>Selected groups</b>
+        @foreach (var item in Selected)
+        {
+            <li @onclick="@(() => Deselect(item))">@item.Name</li>
+        }
+    </ul>
+</div>
+
+@code {
+    [Parameter]
+    public List<Group> Deselected { get; set; } = new List<Group>();
+
+    [Parameter]
+    public List<Group> Selected { get; set; } = new List<Group>();
+
+    private void Select(Group item)
+    {
+        Deselected.Remove(item);
+        Selected.Add(item);
+    }
+
+    private void Deselect(Group item)
+    {
+        Selected.Remove(item);
+        Deselected.Add(item);
+    }
+
+    private void Select_All()
+    {
+        Selected.AddRange(Deselected);
+        Deselected.Clear();
+    }
+
+    private void Deselect_All()
+    {
+        Deselected.AddRange(Selected);
+        Selected.Clear();
+    }
+}

@@ -1,0 +1,163 @@
+﻿@page "/joincompany"
+@attribute [Authorize(Roles = User_Roles.New)]
+
+@inject ICompany_Service _company_Service
+@inject IUser_Service _user_Service
+@inject IJob_Service _job_Service
+@inject Company_Mapper _company_Mapper
+
+@inject AuthenticationStateProvider authentication_State_Provider
+@inject UserManager<ApplicationUser> _user_Manager
+
+<div class="m-3 text-center">
+    <h3>Join company</h3>
+</div>
+
+@if (_current_User.Role_Name == User_Roles.Company_Admin)
+{
+    <p class="greenText">Already submitted company.</p>
+    return;
+}
+
+@if (_form_Status == Form_Status.New)
+{
+    <EditForm Model="@_company_View" OnValidSubmit="Save" class="card card-body mt-5 inputForm">
+        <div class="form-group row">
+            <label for="Invite_Code" class="col-md-2 col-form-label">Invite code</label>
+            <div class="col-md-10">
+                <InputText type="text" id="Invite_Code" class="inputBoxStripe noMarginBottom" @bind-Value="_company_View.Invite_Code_String" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-md-10">
+                <button type="submit" class="btn btn-success">Submit</button>
+            </div>
+        </div>
+    </EditForm>
+}
+
+@if (_error)
+{
+    <p class="redText">Company not found!</p>
+}
+
+@if (_submitted)
+{
+    <p class="greenText">Thank you for submitting a join request!</p>
+
+    <div class="table-responsive">
+        <table class="table table-dark table-striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Addres</th>
+                    <th>Email</th>
+                    <th>Phone Number</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>@_company.Name</td>
+                    <td>@_company.Address</td>
+                    <td>@_company.Email_Address</td>
+                    <td>@_company.Phone_Number</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+}
+
+@code {
+    [CascadingParameter]
+    private Task<AuthenticationState> _authentication_State_Task { get; set; }
+    private ApplicationUser _application_User = new ApplicationUser();
+    private User _current_User = new User();
+
+    private Company _company = new Company();
+    private Company_View _company_View = new Company_View();
+
+    private Form_Status _form_Status;
+    private bool _submitted;
+    private bool _error;
+
+    private async Task Get_Current_User()
+    {
+        var current_User_Claim = (await _authentication_State_Task).User;
+        _application_User = await _user_Manager.GetUserAsync(current_User_Claim);
+        _current_User = await _user_Service.Get_By_Id(_application_User.UserId);
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Get_Current_User();
+        await Refresh();
+    }
+
+    protected async Task Refresh()
+    {
+        if (!_current_User.Company_Id.HasValue)
+        {
+            _form_Status = Form_Status.New;
+            return;
+        }
+
+        _company = await _company_Service.Get_By_Id(_current_User.Company_Id.Value);
+        if (_company == null)
+        {
+            _current_User.Company_Id = null;
+            await _user_Service.Update(_current_User);
+            _form_Status = Form_Status.New;
+            return;
+        }
+
+        _submitted = true;
+    }
+
+    private async Task Save()
+    {
+        Guid code;
+
+        try
+        {
+            code = Guid.Parse(_company_View.Invite_Code_String);
+        }
+        catch (FormatException)
+        {
+            _error = true;
+            return;
+        }
+
+        var company = await _company_Service.Get_By_Invite_Code(code);
+        if (company == null)
+        {
+            _error = true;
+            return;
+        }
+
+        _current_User.Company_Id = company.Id;
+        _current_User.Role_Name = User_Roles.Employee;
+
+        await _user_Service.Update(_current_User);
+        await _user_Manager.RemoveFromRoleAsync(_application_User, User_Roles.New_User);
+        await _user_Manager.AddToRoleAsync(_application_User, User_Roles.Employee);
+
+        _submitted = true;
+        _form_Status = Form_Status.None;
+
+        string email = (await _user_Service.Get_All_By_Company_Id(company.Id))
+            .Find(x => x.Role_Name == User_Roles.Company_Admin).Email_Address;
+
+        string message = $@"Employee email: {_current_User.Email_Address}</br>
+                            Please go the the EOB website and click on the 'My Members' page. You should have a notification above the page.";
+
+        BackgroundJob.Enqueue(() => _job_Service.Email_Employee_Joined(email, message));
+
+        await Refresh();
+    }
+
+    private void Form_New()
+    {
+        _company_View = new();
+        _form_Status = Form_Status.New;
+    }
+}

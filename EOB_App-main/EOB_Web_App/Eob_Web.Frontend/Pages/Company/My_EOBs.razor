@@ -1,0 +1,328 @@
+﻿@page "/myeobs/{page:int?}"
+@attribute [Authorize(Roles = User_Roles.Company, Policy = "verified")]
+
+@inject IEob_Service _Eob_Service
+@inject IGroup_Service _group_Service
+@inject IUser_Service _user_Service
+@inject IZeroTier_Service _zeroTier_Service
+@inject Eob_Mapper _Eob_Mapper
+
+@inject AuthenticationStateProvider authentication_State_Provider
+@inject UserManager<ApplicationUser> _user_Manager
+@inject NavigationManager _navigation_Manager
+
+@code {
+    private void NavigateToSubscriptionPage()
+    {
+        _navigation_Manager.NavigateTo("/subscription");
+    }
+}
+
+<div class="m-3 text-center">
+    <h3>My EOBs</h3>
+</div>
+
+@if (_load_Status != Load_Status.Loading
+  && _form_Status != Form_Status.None)
+{
+    if (_form_Status == Form_Status.Edit)
+    {
+        <h4>@_form_Status - @_eob_View.Node_Name</h4>
+    }
+    else
+    {
+        <h4>@_form_Status</h4>
+    }
+
+    <EditForm Model="@_eob_View" OnValidSubmit="Save" class="card card-body mt-4 inputForm">
+        <DataAnnotationsValidator />
+        <div class="form-group row">
+            <label for="Group_Id" class="col-md-2 col-form-label">Group</label>
+            <div class="col-md-10">
+                <InputSelect id="Group_Id" class="inputBoxStripe noMarginBottom" @bind-Value="_eob_View.Group_Id">
+                    <option value="0">None</option>
+                    @foreach (var group in _groups)
+                    {
+                        <option value="@group.Id">@group.Name</option>
+                    }
+                </InputSelect>
+                <ValidationMessage For="@(() => _eob_View.Group_Id)" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-md-10">
+                <button type="button" class="btn btn-danger" @onclick="(() => Form_Cancel())">Cancel</button>
+                <button type="submit" class="btn btn-success">Submit</button>
+            </div>
+        </div>
+    </EditForm>
+}
+
+@if (_load_Status == Load_Status.Success)
+{
+    @if (!_eobs.Paginate(_pagination).Any())
+    {
+        _navigation_Manager.NavigateTo("myeobs/1");
+    }
+
+    <div class="table-responsive">
+        <table class="table table-dark table-striped">
+            <thead>
+                <tr>
+                    <th>Serial</th>
+                    <th>Name</th>
+                    <th>Subscription</th>
+                    <th>Start</th>
+                    <th>Expiration</th>
+                    <th>Status</th>
+                    <th>Group</th>
+                    <th>Actions</th>
+                    <th>Expand Subscription</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var eob in _eobs.Paginate(_pagination))
+                {
+                    <tr>
+                        <td>@eob.Serial_Number</td>
+                        <td>@eob.Node_Name</td>
+
+                        @if (eob.Subscription.Active)
+                        {
+                            <td class="greenText">Active</td>
+                        }
+                        else
+                        { 
+                            <td class="redText">Expired</td>
+                        }
+
+                        <td>@eob.Subscription.Start_Date.ToShortDateString()</td>
+
+                        @if (!eob.Subscription.Expiration_Date.HasValue)
+                        {
+                            <td class="text-info">Never</td>
+                        }
+                        else if ((eob.Subscription.Expiration_Date.Value - DateTime.Today).Days <= 0)
+                        {
+                            <td class="redText">@eob.Subscription.Expiration_Date.Value.ToShortDateString()</td>
+                        }
+                        else if ((eob.Subscription.Expiration_Date.Value - DateTime.Today).Days < 30)
+                        {
+                            <td class="text-warning">@eob.Subscription.Expiration_Date.Value.ToShortDateString()</td>
+                        }
+                        else
+                        {
+                            <td class="greenText">@eob.Subscription.Expiration_Date.Value.ToShortDateString()</td>
+                        }
+
+                        @{ var node = _nodes.Find(x => x.nodeId == eob.Node_Id); }
+                        @if (node == null)
+                        {
+                            <td class="redText"><b>Something went wrong!</b></td>
+                        }
+                        else if (node.online)
+                        {
+                            <td class="greenText"><b>Online</b></td>
+                        }
+                        else
+                        {
+                            if (Unix_Date(node.lastOnline) != DateTime.UnixEpoch)
+                            {
+                                <td class="redText"><b>Offline</b>,<br> last seen @Unix_Date(node.lastOnline)</td>
+                            }
+                            else
+                            {
+                                <td class="redText"><b>Offline</b>,<br> last seen <b>Never</b></td>
+                            }
+                        }
+
+                        @if (eob.Group_Id.HasValue)
+                        {
+                            <td><a href="/mygroups/selected/@eob.Group.Id">@eob.Group.Name</a></td>
+                        }
+                        else
+                        {
+                            <td>None</td>
+                        }
+
+                        <td><button class="btn btn-primary" disabled="@(_current_User.Role_Name != User_Roles.Company_Admin || !eob.Subscription.Active)" @onclick="(() => Form_Edit(eob))">Edit</button></td>
+                        <td><button class="btn btn-primary" @onclick="NavigateToSubscriptionPage">Subscription</button></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <Pagination_Select Page_Name="myeobs"
+        Page_Number="@_pagination.Page_Number"
+        Total_Items="@_eobs.Count"
+        Page_Size="@_pagination.Page_Size">
+    </Pagination_Select>
+}
+else
+{
+    <p><em>@_load_Status</em></p>
+}
+
+@switch (_popup_Status)
+{
+    case Popup_Status.Exists:
+        <Popup Status="Popup_Status.Error"
+            Text="The given Node ID exists"
+            On_Ok="(() => Popup_Close())">
+        </Popup>
+        break;
+
+    case Popup_Status.Non_Existent:
+        <Popup Status="Popup_Status.Error"
+            Text="The given Node ID doesn't exist in ZeroTier database"
+            On_Ok="(() => Popup_Close())">
+        </Popup>
+        break;
+}
+
+@code {
+    [CascadingParameter]
+    private Task<AuthenticationState> _authentication_State_Task { get; set; }
+    private User _current_User = new User();
+
+    private List<Eob> _eobs = new List<Eob>();
+    private List<Group> _groups = new List<Group>();
+    private List<ZT_Node> _nodes = new List<ZT_Node>();
+    private List<Task> _tasks = new List<Task>();
+
+    private Eob_View _eob_View = new Eob_View();
+    private Pagination _pagination = new Pagination();
+
+    private Load_Status _load_Status;
+    private Form_Status _form_Status;
+    private Popup_Status _popup_Status;
+
+    [Parameter]
+    public int Page
+    {
+        get => _pagination.Page_Number;
+        set
+        {
+            if (_pagination.Page_Number != value)
+            {
+                _pagination.Page_Number = value;
+            }
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (Page == 0)
+            Page = 1;
+
+        await Get_Current_User();
+        await Refresh();
+    }
+
+    private async Task Get_Current_User()
+    {
+        var current_User_Claim = (await _authentication_State_Task).User;
+        var application_User = await _user_Manager.GetUserAsync(current_User_Claim);
+        _current_User = await _user_Service.Get_By_Id(application_User.UserId);
+    }
+
+    protected async Task Refresh()
+    {
+        _eobs = await _Eob_Service.Get_All_By_Company_Id(_current_User.Company_Id.Value);
+        _groups = await _group_Service.Get_All_By_Company_Id(_current_User.Company_Id.Value);
+        _tasks = new();
+        _nodes = new();
+
+        if (_current_User.Role_Name == User_Roles.Employee)
+            _eobs.RemoveAll(x => !_current_User.Groups.Any(y => y.Id == x.Group_Id));
+
+        foreach (var eob in _eobs)
+        {
+            _tasks.Add(Task.Run(async() => 
+            { 
+                var node = await _zeroTier_Service.Get_Node(eob.Network_Id, eob.Node_Id);
+                _nodes.Add(node);
+            }));
+        }
+
+        await Task.WhenAll(_tasks);
+
+        if (_eobs.Any())
+            _load_Status = Load_Status.Success;
+        else
+            _load_Status = Load_Status.Empty;
+
+        _form_Status = Form_Status.None;
+        _eob_View = new();
+    }
+
+    private async Task Save()
+    {
+        var eob = _Eob_Mapper.View_To_Model(_eob_View);
+        var node = await _zeroTier_Service.Get_Node(eob.Network_Id, eob.Node_Id);
+
+        if (eob.Group_Id.HasValue)
+        {
+            var group = await _group_Service.Get_By_Id(eob.Group_Id.Value);
+            eob.Company_Id = group.Company_Id;
+        }
+
+        if (node == null)
+        {
+            Popup_Open(Popup_Status.Non_Existent);
+            return;
+        }
+
+        if (_form_Status == Form_Status.New
+            && _eobs.Any(x => x.Node_Id == eob.Node_Id))
+        {
+            Popup_Open(Popup_Status.Exists);
+            return;
+        }
+
+        if (_form_Status == Form_Status.New)
+            await _Eob_Service.Create(eob);
+        if (_form_Status == Form_Status.Edit)
+            await _Eob_Service.Update(eob);
+
+        await Refresh();
+    }
+
+    private async Task Delete(Eob eob)
+    {
+        bool result = await _Eob_Service.Delete(eob.Id);
+        var node = await _zeroTier_Service.Get_Node(eob.Network_Id, eob.Node_Id);
+        node.config.authorized = false;
+
+        await _zeroTier_Service.Update_Node(node);
+        await Refresh();
+    }
+
+    private DateTime Unix_Date(long unix_Epoch)
+    {
+        return DateTimeOffset.FromUnixTimeMilliseconds(unix_Epoch).DateTime;
+    }
+
+    private void Form_Edit(Eob eob)
+    {
+        _Eob_Mapper.Model_To_View(eob, _eob_View);
+        _form_Status = Form_Status.Edit;
+    }
+
+    private void Form_Cancel()
+    {
+        _form_Status = Form_Status.None;
+        _eob_View = new();
+    }
+
+    private void Popup_Open(Popup_Status state)
+    {
+        _popup_Status = state;
+    }
+
+    private void Popup_Close()
+    {
+        _popup_Status = Popup_Status.None;
+    }
+}

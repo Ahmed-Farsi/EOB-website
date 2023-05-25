@@ -1,0 +1,294 @@
+@import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
+
+/* Pre generated blazor code */
+
+html, body {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    color: white;
+}
+
+.main {
+    flex: 1;
+    background-color: #3D4042;
+}
+
+.mainbox {
+    background-color: #4D5053;
+    padding: 1.6rem;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+    min-height: 35rem;
+    border-radius: 5px;
+}
+
+.pos-absolute {
+    bottom: 0;
+    position: absolute;
+}
+
+a, .btn-link {
+    color: #bde0ff;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
+}
+
+.content {
+    margin: 1.5rem auto;
+    background-color: #4D5053;
+    padding: 1rem;
+    max-width: 92rem;
+    min-height: 60vw;
+    border-radius: 5px;
+}
+
+.valid.modified:not([type=checkbox]) {
+    outline: 1px solid #26b050;
+}
+
+.invalid {
+    outline: 1px solid red;
+}
+
+.validation-message {
+    color: red;
+}
+
+#blazor-error-ui {
+    background: lightyellow;
+    bottom: 0;
+    box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.2);
+    display: none;
+    left: 0;
+    padding: 0.6rem 1.25rem 0.7rem 1.25rem;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+    color: black;
+}
+
+#blazor-error-ui .dismiss {
+    cursor: pointer;
+    position: absolute;
+    right: 0.75rem;
+    top: 0.5rem;
+}
+
+/* General code, Topheader */
+
+.blueHeader {
+    background-color: #3AA3FF;
+    color: #06002D;
+}
+
+a:hover {
+    color: #009EFF;
+}
+
+.redButton {
+    background-color: #FF2C41;
+    color: #06002D;
+    border: none;
+    border-radius: 4px;
+    padding: 3px 18px;
+}
+
+.blueButton {
+    background-color: #3AA3FF;
+    color: #06002D;
+    border: none;
+    border-radius: 4px;
+    padding: 3px 18px;
+}
+
+.EOBlogo {
+    width: 12rem;
+    margin: auto;
+}
+
+.modal {
+    color: black;
+}
+
+/* Footer */
+
+.footer {
+    background-color: #4D5053;
+    bottom: 0;
+    padding: 2rem;
+    width: 100%;
+}
+
+.footerContactInfoUL {
+    list-style: none;
+    margin-left: -40px;
+}
+
+.footerText {
+    width: 25vw;
+    max-width: 25rem;
+    min-width: 16rem;
+}
+
+.flexboxFooter {
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: auto;
+    margin-right: auto;
+    justify-content: center;
+}
+
+.copyrightText {
+    text-align: center;
+    margin-bottom: -25px;
+    font-size: 0.93rem;
+}
+
+/* Contact */
+
+.inputBoxStripe {
+    border: 1px solid #DCDCDC;
+    background-color: #4D5053;
+    margin-bottom: 3rem;
+    width: 22rem;
+    color: white;
+    outline: none;
+    padding: 7px 12px;
+    max-width: 100%;
+}
+
+.messageBox {
+    background-color: #3E3E3E;
+    border: 2px solid #DCDCDC;
+    color: white;
+    width: 45rem;
+    height: 25rem;
+    resize: both;
+    position: static;
+    max-width: 100%;
+    outline: none;
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+    padding: 7px 12px;
+}
+
+.flexboxRevWrap {
+    display: flex;
+    flex-wrap: wrap-reverse;
+}
+
+.contactInfoBox {
+    flex: 1;
+    padding: 1.5rem;
+}
+
+.contactForm {
+    flex: 2;
+}
+
+/* Loginpage */
+
+.signInBox {
+    text-align: center;
+    width: 22rem;
+    margin: auto;
+}
+
+.lightBlueLink {
+    color: #7DCBFF;
+}
+
+.graytext {
+    color: #CECECE;
+}
+
+.loginPageButton {
+    width: 15rem;
+    height: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+/* My EOB */
+
+.redText {
+    color: #FF2C41;
+}
+
+.greenText {
+    color: #00FF00;
+}
+
+.smallerPencil {
+    font-size: 0.8rem;
+}
+
+/* EOB Database */
+
+.inputForm {
+    background-color: inherit;
+    border: inherit;
+}
+
+.middleButton {
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    margin-bottom: 3rem;
+}
+
+.noMarginBottom {
+    margin-bottom: inherit;
+}
+
+.checkBox {
+    height: 25px;
+    width: 25px;
+    margin-top: 6px;
+}
+
+/* multiple selector */
+
+.multiple-selector {
+    display: flex;
+}
+
+.selectable-ul {
+    height: 200px;
+    overflow-y: auto;
+    list-style-type: none;
+    width: 170px;
+    padding: 0;
+    border-radius: 3px;
+    border: 1px solid #ccc;
+}
+
+    .selectable-ul li {
+        cursor: pointer;
+        border-bottom: 1px #eee solid;
+    }
+
+        .selectable-ul li:hover {
+            background-color: #08c;
+        }
+
+.multiple-selector-buttons {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 5px;
+}
+
+.login-mobile {
+    display: none;
+}
+
+@media only screen and (max-width: 640px) {
+    .login-mobile {
+        display: flex;
+        margin: 1em;
+        align-items: center;
+    }
+}

@@ -1,0 +1,60 @@
+﻿@inherits LayoutComponentBase
+
+<div class="page">
+    <div class="sidebar">
+        <NavMenu />
+
+        <div class="login-mobile">
+            <LoginDisplay />
+        </div>
+    </div>
+
+    <div class="main">
+        <div class="top-row px-4" style="z-index:10">@* prevent pagination from overlapping top bar *@ 
+            <LoginDisplay />
+        </div>
+
+        <div class="content px-4">
+            @Body
+        </div>
+
+        <div class="footer">
+            <div class="flexboxFooter">
+                <div class="footerText">
+                    <h5><b>About us</b></h5>
+                    <p>
+                        Creative, out-of-the-box and
+                        tailor-made products.
+                    </p>
+                    <p>
+                        Pro Control designs and implements
+                        process control systems, data
+                        acquisition systems, and industrial
+                        automation solutions.
+                    </p>
+                </div>
+                <div class="footerText">
+                    <h5><b>Why Pro Control</b></h5>
+                    <ul>
+                        <li>Multidisciplinary partnerships</li>
+                        <li>One-stop shop for turnkey installation</li>
+                        <li>Mean and lean</li>
+                        <li>Developers of Dizanta</li>
+                        <li>Over 20 years of experience</li>
+                    </ul>
+                </div>
+                <div class="footerText">
+                    <h5><b>Contact Details</b></h5>
+                    <ul class="footerContactInfoUL">
+                        <li><span class="oi oi-home" aria-hidden="true"></span>  Pro Control BV</li>
+                        <li><span class="oi oi-map-marker" aria-hidden="true"></span>  M.C van Voordenstraat 5</li>
+                        <li><span class="oi oi-map-marker" aria-hidden="true"></span>  NL 1483 GB De Rijp</li>
+                        <li><span class="oi oi-phone" aria-hidden="true"></span>  +31 (0)299 630 690</li>
+                        <li><span class="oi oi-envelope-open" aria-hidden="true"></span>  info@pro-control.nl</li>
+                    </ul>
+                </div>
+            </div>
+            <p class="copyrightText">© 2021 Pro Control</p>
+        </div>
+    </div>
+</div>

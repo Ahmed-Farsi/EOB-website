@@ -1,0 +1,66 @@
+﻿@page "/overview"
+@attribute [Authorize(Roles = User_Roles.All)]
+
+@inject ICompany_Service _company_Service
+@inject IUser_Service _user_Service
+@inject Company_Mapper _company_Mapper
+
+@inject AuthenticationStateProvider authentication_State_Provider
+@inject UserManager<ApplicationUser> _user_Manager
+
+<div class="m-3 text-center">
+    <h3>Overview</h3>
+</div>
+
+@if (_load_Status == Load_Status.Success)
+{
+    <p>Current role: <b>@_current_User.Role_Name.Replace("_", " ")</b></p>
+    @if (_current_User.Verified)
+    {
+        <p>Verified: <b class=greenText>Yes</b></p>
+    }
+    else
+    {
+        <p>Verified: <b class=greenText>No</b></p>
+    }
+
+    if (_current_User.Company != null)
+    { 
+        <p>Company name: <b>@_current_User.Company.Name</b></p>
+    }
+    if (_current_User.Verified && _current_User.Role_Name == User_Roles.Company_Admin)
+    { 
+        <p>Invite code: <b>@_current_User.Company.Invite_Code</b></p>
+    }
+}
+else
+{
+    <p><em>@_load_Status</em></p>
+}
+
+@code {
+    [CascadingParameter]
+    private Task<AuthenticationState> _authentication_State_Task { get; set; }
+    private ApplicationUser _application_User = new ApplicationUser();
+    private User _current_User = new User();
+
+    private Load_Status _load_Status;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Get_Current_User();
+        Refresh();
+    }
+
+    private async Task Get_Current_User()
+    {
+        var current_User_Claim = (await _authentication_State_Task).User;
+        _application_User = await _user_Manager.GetUserAsync(current_User_Claim);
+        _current_User = await _user_Service.Get_By_Id(_application_User.UserId);
+    }
+
+    protected void Refresh()
+    {
+        _load_Status = Load_Status.Success;
+    }
+}

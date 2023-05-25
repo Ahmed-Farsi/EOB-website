@@ -1,0 +1,86 @@
+﻿@page "/subscription"
+
+@using Mollie.Api.Client
+@using Mollie.Api.Models.Payment.Request
+@using Mollie.Api.Models.Payment.Response
+@using Mollie.Api.Models.Payment.Response.Status
+
+<h2>Verleng je abonnement</h2>
+
+@if (subscription != null)
+{
+    <form id="subscriptionForm" method="post">
+        <label for="name">Naam:</label>
+        <input type="text" id="name" name="name" required>
+
+        <label for="email">E-mailadres:</label>
+        <input type="email" id="email" name="email" required>
+
+        <!-- Voeg hier andere vereiste velden toe -->
+
+        <button type="submit" class="btn btn-primary" @onclick="StartPayment">Betaal</button>
+    </form>
+}
+
+@if (paymentResponse != null)
+{
+    <h3>Betaling succesvol!</h3>
+    <p>Bedankt voor je betaling. Je abonnement is verlengd.</p>
+    <p>Transactie-ID: @paymentResponse.Id</p>
+}
+
+@code {
+    private SubscriptionModel subscription;
+    private PaymentResponse paymentResponse;
+
+    private async Task StartPayment()
+    {
+        // Verwerk het abonnementsformulier en bereid de betaling voor
+        var paymentRequest = new PaymentRequest
+            {
+                Amount = new Amount
+                {
+                    Currency = "EUR",
+                    Value = "10.00" // Vervang dit door de werkelijke abonnementsprijs
+                },
+                Description = "Abonnement verlenging",
+                RedirectUrl = "https://localhost:44301/",
+                WebhookUrl = "https://your-website.com/subscription/webhook" // Optioneel: configureer een webhook URL voor betalingsstatusupdates
+            };
+
+        // Maak een Mollie API-client aan met je eigen API-sleutel
+        var mollieClient = new MollieClient("test_qrv4g7nuQC3KwrxC5pEyAxjwfwvQaS"); // api key mollie
+
+        // Maak een betaling aan via Mollie
+        var payment = await mollieClient.Payments.CreatePaymentAsync(paymentRequest);
+
+        // Sla de abonnementsgegevens en betalingsstatus op voor later gebruik
+        subscription = new SubscriptionModel
+            {
+                Name = "John Doe", // Vervang dit door de werkelijke gebruikersgegevens
+                Email = "john.doe@example.com",
+                // Andere abonnementsgegevens
+            };
+
+        // Redirect naar de betaalpagina
+        NavigationManager.NavigateTo(payment.Links.Checkout.Href);
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Controleer bij het laden van de pagina of er een betalingsbevestiging is ontvangen
+        var paymentId = NavigationManager.Uri.Split('/').LastOrDefault();
+        if (!string.IsNullOrEmpty(paymentId))
+        {
+            var mollieClient = new MollieClient("test_qrv4g7nuQC3KwrxC5pEyAxjwfwvQaS"); // api key mollie
+            paymentResponse = await mollieClient.Payments.GetPaymentAsync(paymentId);
+
+            // Controleer of de betaling succesvol is
+            if (paymentResponse.Status == PaymentStatus.Paid)
+            {
+                // Voer hier de acties uit die nodig zijn na een succesvolle betaling
+                // bijvoorbeeld het bijwerken van de abonnementsstatus in de database
+            }
+        }
+    }
+}

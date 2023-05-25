@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <Fragment>
+        <DirectoryRef Id="INSTALLFOLDER">
+            <Component Id="cmpA0863526952F7834E7C922F065E4C8A8" Guid="{357159C3-6C47-459E-92B0-064FEAEC0B2C}">
+                <File Id="filC04B02D0CCC2D5CCC1013B35DE86DB29" KeyPath="yes" Source="$(var.BasePath)\appsettings.Development.json" />
+            </Component>
+            <Component Id="cmpF82FCA80BBAF44D285C97F10993DEEE6" Guid="{51609B0D-A78A-470B-8442-0D9A7095A32E}">
+                <File Id="fil840B80AC19861C7F9F04FBDCFAE331CE" KeyPath="yes" Source="$(var.BasePath)\appsettings.json" />
+            </Component>
+            <Component Id="cmp63C170ACC5D9139D96E32073358D1BE1" Guid="{21763243-1578-4C31-952C-9A45EC5B28B3}">
+                <File Id="fil736C19A57049C32DF1C124E3518A0144" KeyPath="yes" Source="$(var.BasePath)\D3DCompiler_47_cor3.dll" />
+            </Component>
+            <Component Id="cmpE7842D1E3C618128CA7464B564811ACE" Guid="{E27F0D19-2317-46CB-AB1E-10F49B76699B}">
+                <File Id="filE9079E0A0716A27F7F7C60D9F7463D92" KeyPath="yes" Source="$(var.BasePath)\Engineers_App.Core.pdb" />
+            </Component>
+            <Component Id="cmp6E5C4469F4B5AE28F90D133B20B1DA53" Guid="{59A02DC6-C8CB-47E4-9220-18A1CF96EDE4}">
+                <File Id="fil055CAF2611C0AE5995CB75E37208447D" KeyPath="yes" Source="$(var.BasePath)\EOBEngineersApp.exe" />
+            </Component>
+            <Component Id="cmp4F1EB91909062EADE5C3D9CE5D2AE696" Guid="{94067F31-8209-4FF2-A75A-9BD37103A90B}">
+                <File Id="filD48212C8F80B74C101888C826CB643B7" KeyPath="yes" Source="$(var.BasePath)\EOBEngineersApp.pdb" />
+            </Component>
+            <Component Id="cmpD5895916FDB181368EE163392C055B5B" Guid="{C7C139FF-A645-457A-9646-62C8509BF408}">
+                <File Id="filF09CE23D9824BEF0C22BEB9AB5C64D0E" KeyPath="yes" Source="$(var.BasePath)\OpenCvSharpExtern.dll" />
+            </Component>
+            <Component Id="cmp2160FB1BEC889F3FEF5AB4F424D05410" Guid="{F0149B69-36B5-4B93-97E1-717446C5C97C}">
+                <File Id="filE7B77A2570AB07B47783B50FD85EECD4" KeyPath="yes" Source="$(var.BasePath)\opencv_videoio_ffmpeg455.dll" />
+            </Component>
+            <Component Id="cmp2331B7D07912805FDD8E30EBA7274C0A" Guid="{A235136B-4210-4CDB-9BF4-64AFD38B5D75}">
+                <File Id="filB92FECC285EC4A1BFF4B39CA02F221E4" KeyPath="yes" Source="$(var.BasePath)\PenImc_cor3.dll" />
+            </Component>
+            <Component Id="cmpAAD5497968A7B8FFCB626EB296EB0E32" Guid="{9004495E-2176-4FE3-BD4B-676670B437DE}">
+                <File Id="fil3F4E615E22A14A67DD34A8E3D1F46E12" KeyPath="yes" Source="$(var.BasePath)\PresentationNative_cor3.dll" />
+            </Component>
+            <Component Id="cmp8B1694C26CAAE996324EDC5330803FAB" Guid="{83F1AFD1-4916-4A74-A416-8B7D0D5A0492}">
+                <File Id="fil2F67CD83229D471ECE13F4288CD6A2FC" KeyPath="yes" Source="$(var.BasePath)\Utilities.pdb" />
+            </Component>
+            <Component Id="cmp1E4357D9F189E6D5B80BEE033AF7F3DB" Guid="{96A8770D-16F7-4FF3-8694-CB1D23E7A632}">
+                <File Id="filF0F89071B3DAA242D3DD17663C707EE7" KeyPath="yes" Source="$(var.BasePath)\vcruntime140_cor3.dll" />
+            </Component>
+            <Component Id="cmpF115E4FEBD6E5B33656C807D055137BF" Guid="{E03B5478-07AA-4F09-84A7-03F1D1558EBC}">
+                <File Id="fil06589CA8F8E9A8611E0C0FD554762ED9" KeyPath="yes" Source="$(var.BasePath)\wpfgfx_cor3.dll" />
+            </Component>
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <ComponentGroup Id="PublishedComponents">
+            <ComponentRef Id="cmpA0863526952F7834E7C922F065E4C8A8" />
+            <ComponentRef Id="cmpF82FCA80BBAF44D285C97F10993DEEE6" />
+            <ComponentRef Id="cmp63C170ACC5D9139D96E32073358D1BE1" />
+            <ComponentRef Id="cmpE7842D1E3C618128CA7464B564811ACE" />
+            <ComponentRef Id="cmp6E5C4469F4B5AE28F90D133B20B1DA53" />
+            <ComponentRef Id="cmp4F1EB91909062EADE5C3D9CE5D2AE696" />
+            <ComponentRef Id="cmpD5895916FDB181368EE163392C055B5B" />
+            <ComponentRef Id="cmp2160FB1BEC889F3FEF5AB4F424D05410" />
+            <ComponentRef Id="cmp2331B7D07912805FDD8E30EBA7274C0A" />
+            <ComponentRef Id="cmpAAD5497968A7B8FFCB626EB296EB0E32" />
+            <ComponentRef Id="cmp8B1694C26CAAE996324EDC5330803FAB" />
+            <ComponentRef Id="cmp1E4357D9F189E6D5B80BEE033AF7F3DB" />
+            <ComponentRef Id="cmpF115E4FEBD6E5B33656C807D055137BF" />
+        </ComponentGroup>
+    </Fragment>
+</Wix>

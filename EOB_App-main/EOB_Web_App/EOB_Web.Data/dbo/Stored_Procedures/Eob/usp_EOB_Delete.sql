@@ -1,0 +1,8 @@
+﻿CREATE PROCEDURE [dbo].[usp_Eob_Delete]
+	@Id INT OUTPUT
+AS
+BEGIN
+	DELETE FROM [Eob]
+	OUTPUT DELETED.[Id]
+	WHERE [Id] = @Id;
+END

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
+     xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
+
+  <?if $(var.Platform)=x64?>
+    <?define ProgramFiles = "ProgramFiles64Folder"?>
+  <?else?>
+    <?define ProgramFiles = "ProgramFilesFolder" ?>
+  <?endif?>
+
+	<Product Name="EOB Engineers App"
+           Id="6a2e547b-3661-4952-a408-a5d6d7c78468"
+           UpgradeCode="5aca8378-76fa-4b06-ad80-8c07ac2588ae"
+           Language="1033"
+           Version="1.0.0.0"
+           Manufacturer="Pro Control">
+
+		<Package InstallerVersion="200"
+						 Manufacturer="Pro Control"
+						 Description="EOB Engineers App"
+             Compressed="yes"
+             InstallScope="perMachine"/>
+
+		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed."/>
+		<MediaTemplate EmbedCab="yes" />
+		<Icon Id="icon.ico" SourceFile="$(var.Engineers_App.WPF.ProjectDir)\eob.ico"/>
+    <Property Id="ARPPRODUCTICON">icon.ico</Property>
+    <Property Id="ARPURLINFOABOUT">https://Pro-control.nl</Property>
+    <Property Id="WIXUI_INSTALLDIR" Value="INSTALLFOLDER" />
+    <UIRef Id="WixUI_InstallDir"/>
+    <WixVariable Id="WixUILicenseRtf" Value="$(var.ProjectDir)\Assets\License.rtf"/>
+    <WixVariable Id="WixUIBannerBmp" Value="$(var.ProjectDir)\Assets\Banner.bmp"/>
+    <WixVariable Id="WixUIDialogBmp" Value="$(var.ProjectDir)\Assets\Dialog.bmp"/>
+
+		<Feature Id="ProductFeature" Title="EOB Engineers App" Level="1">
+			<ComponentGroupRef Id="ProductComponents"/>
+			<ComponentGroupRef Id="PublishedComponents"/>
+		</Feature>
+
+	</Product>
+
+	<Fragment>
+		<Directory Id="TARGETDIR" Name="SourceDir">
+
+      <Directory Id="ProgramMenuFolder">
+        <Directory Id="ApplicationProgramsFolder" Name="EOB Engineers App"/>
+      </Directory>
+
+			<Directory Id="$(var.ProgramFiles)">
+				<Directory Id="INSTALLFOLDER" Name="EOB Engineers App"/>
+			</Directory>
+
+		</Directory>
+	</Fragment>
+
+  <Fragment>
+    <ComponentGroup Id="ProductComponents">
+      <ComponentRef Id="MainAppShortcut"/>
+    </ComponentGroup>
+
+    <DirectoryRef Id="INSTALLFOLDER" FileSource="..\Engineers_App.WPF\bin\Debug\net6.0-windows\win-$(var.Platform)\">
+      <Component Id="MainAppShortcut" Guid="7394bed6-f985-4025-867e-5c3de83d5835">
+
+        <Shortcut Id="MainAppShortcut"
+                  Name="EOB Engineers App"
+                  Target="[INSTALLFOLDER]EOBEngineersApp.exe"
+                  Directory="ApplicationProgramsFolder"
+                  WorkingDirectory="INSTALLFOLDER"
+                  Icon="icon.ico"/>
+
+        <util:InternetShortcut Id="OnlineDocumentationShortcut"
+                               Name="EOB Website"
+                               Target="https://engineeroutofthebox.com/"
+                               Directory="ApplicationProgramsFolder"/>
+
+        <RegistryValue Id="RegShortcutKey"
+                       Root="HKCU"
+                       Key="SOFTWARE\EOBEngineersApp"
+                       Name="Shortcut"
+                       Type="integer"
+                       Value="1"
+                       KeyPath="yes"/>
+
+        <RemoveFolder Id="RemoveStartMenu" 
+                      Directory="ApplicationProgramsFolder"
+                      On="uninstall"/>
+      </Component>
+    </DirectoryRef>
+  </Fragment>
+</Wix>

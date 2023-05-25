@@ -1,0 +1,231 @@
+﻿@page "/registercompany"
+@attribute [Authorize(Roles = User_Roles.New)]
+
+@inject ICompany_Service _company_Service
+@inject IUser_Service _user_Service
+@inject Company_Mapper _company_Mapper
+@inject IJob_Service _job_Service
+
+@inject AuthenticationStateProvider authentication_State_Provider
+@inject UserManager<ApplicationUser> _user_Manager
+
+<div class="m-3 text-center">
+    <h3>Register company</h3>
+</div>
+
+@if (_current_User.Role_Name == User_Roles.Employee)
+{
+    <p class="greenText">Already sent join request.</p>
+    return;
+}
+
+@if (_form_Status == Form_Status.New)
+{
+    <EditForm Model="@_company_View" OnValidSubmit="Save" class="card card-body mt-5 inputForm">
+        <DataAnnotationsValidator />
+        <div class="form-group row">
+            <label for="Name" class="col-md-2 col-form-label">Company Name</label>
+            <div class="col-md-10">
+                <InputText type="text" id="Name" class="inputBoxStripe noMarginBottom" @bind-Value="_company_View.Name" />
+                <ValidationMessage For="@(() => _company_View.Name)" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="Address" class="col-md-2 col-form-label">Address</label>
+            <div class="col-md-10">
+                <InputText type="text" id="Address" class="inputBoxStripe noMarginBottom" @bind-Value="_company_View.Address" />
+                <ValidationMessage For="@(() => _company_View.Address)" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="Email_Address" class="col-md-2 col-form-label">Email</label>
+            <div class="col-md-10">
+                <InputText type="text" id="Email_Address" class="inputBoxStripe noMarginBottom" @bind-Value="_company_View.Email_Address" />
+                <ValidationMessage For="@(() => _company_View.Email_Address)" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="Phone_Number" class="col-md-2 col-form-label">Phone Number</label>
+            <div class="col-md-10">
+                <InputText type="text" id="Phone_Number" class="inputBoxStripe noMarginBottom" @bind-Value="_company_View.Phone_Number" />
+                <ValidationMessage For="@(() => _company_View.Phone_Number)" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-md-10">
+                <button type="submit" class="btn btn-success">Submit</button>
+            </div>
+        </div>
+    </EditForm>
+}
+
+@if (_submitted)
+{
+    <p class="greenText">Thank you for submitting your company. We will take a look and respond back within 24 hours.</p>
+
+    <div class="table-responsive">
+        <table class="table table-dark table-striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Addres</th>
+                    <th>Email</th>
+                    <th>Phone Number</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>@_company.Name</td>
+                    <td>@_company.Address</td>
+                    <td>@_company.Email_Address</td>
+                    <td>@_company.Phone_Number</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <button @onclick="(() => Popup_Open(Popup_Status.Delete, _company))" class="btn btn-danger">Cancel registration</button>
+
+    switch(_popup_Status)
+    {
+        case Popup_Status.Delete:
+            <Popup
+                Status="_popup_Status"
+                Text="Are you sure you want cancel the registration?"
+                Ok_Text="Yes"
+                On_Ok="(() => Delete(_company_Selection))"
+                On_Cancel="(() => Popup_Close())">
+            </Popup>
+            break;
+
+        case Popup_Status.Exists:
+            <Popup Status="Popup_Status.Error"
+                Text="Company with the name already exists."
+                On_Ok="(() => Popup_Close())">
+            </Popup>
+            break;
+    }
+}
+
+@code {
+    [CascadingParameter]
+    private Task<AuthenticationState> _authentication_State_Task { get; set; }
+    private ApplicationUser _application_User = new ApplicationUser();
+    private User _current_User = new User();
+    private List<string> _emails = new List<string>();
+
+    private List<Company> _companies = new List<Company>();
+    private Company _company = new Company();
+    private Company_View _company_View = new Company_View();
+    private Company _company_Selection = new Company();
+
+    private Form_Status _form_Status;
+    private Popup_Status _popup_Status;
+    private bool _submitted;
+
+    private async Task Get_Current_User()
+    {
+        var current_User_Claim = (await _authentication_State_Task).User;
+        _application_User = await _user_Manager.GetUserAsync(current_User_Claim);
+        _current_User = await _user_Service.Get_By_Id(_application_User.UserId);
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Get_Current_User();
+        await Refresh();
+    }
+
+    protected async Task Refresh()
+    {
+        _companies = await _company_Service.Get_All();
+        _emails = await _user_Service.Get_All_By_Recieve_Email();
+
+        if (!_current_User.Company_Id.HasValue)
+        {
+            _form_Status = Form_Status.New;
+            return;
+        }
+
+        _company = await _company_Service.Get_By_Id(_current_User.Company_Id.Value);
+        if (_company == null)
+        {
+            _current_User.Company_Id = null;
+            await _user_Service.Update(_current_User);
+            _form_Status = Form_Status.New;
+            return;
+        }
+
+        _submitted = true;
+    }
+
+    private async Task Save()
+    {
+        var company = _company_Mapper.View_To_Model(_company_View);
+        company.Invite_Code = Guid.NewGuid();
+
+        if (_companies.Any(x => x.Name == company.Name))
+        {
+            Popup_Open(Popup_Status.Exists);
+            return;
+        }
+
+        _current_User.Role_Name = User_Roles.Company_Admin;
+        _current_User.Company_Id = await _company_Service.Create(company);
+
+        await _user_Service.Update(_current_User);
+        await _user_Manager.RemoveFromRoleAsync(_application_User, User_Roles.New_User);
+        await _user_Manager.AddToRoleAsync(_application_User, User_Roles.Company_Admin);
+
+        string message = $@"User <b>{_current_User.Email_Address}</b> has registerd a new company:</br>
+                            Company email: <b>{company.Email_Address}</b></br>
+                            Company name: <b>{company.Name}</b></br>
+                            Company phone number: <b>{company.Phone_Number}</b></br>
+                            Company address: <b>{company.Address}</b></br></br>
+
+                            Go to Accounts page, click <b>verify</b> on the notification.</br></br>
+
+                            This email was send to the following admins:</br>
+                            {string.Join(",</br>", _emails)}";
+
+        BackgroundJob.Enqueue(() => _job_Service.Email_Company_Admin_Joined(_current_User.Email_Address, _emails, message));
+
+        _submitted = true;
+        _form_Status = Form_Status.None;
+        await Refresh();
+    }
+
+    private async Task Delete(Company company)
+    {
+        _current_User.Company_Id = null;
+        _current_User.Role_Name = User_Roles.New_User;
+        await _user_Service.Update(_current_User);
+
+        await _user_Manager.RemoveFromRoleAsync(_application_User, User_Roles.Company_Admin);
+        await _user_Manager.AddToRoleAsync(_application_User, User_Roles.New_User);
+
+        bool result = await _company_Service.Delete(company.Id);
+        _submitted = false;
+        Popup_Close();
+        await Refresh();
+    }
+
+    private void Form_New()
+    {
+        _company_View = new();
+        _form_Status = Form_Status.New;
+    }
+
+    private void Popup_Open(Popup_Status state, Company company = null)
+    {
+        _popup_Status = state;
+        _company_Selection = company;
+    }
+
+    private void Popup_Close()
+    {
+        _popup_Status = Popup_Status.None;
+        _company_Selection = new();
+    }
+
+}

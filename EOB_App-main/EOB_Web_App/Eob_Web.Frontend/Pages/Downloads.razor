@@ -1,0 +1,21 @@
+﻿@page "/downloads"
+@attribute [Authorize(Roles = User_Roles.Humans, Policy = "verified")]
+
+@inject AuthenticationStateProvider authentication_State_Provider
+@inject UserManager<ApplicationUser> _user_Manager
+@inject NavigationManager _navigation_Manager
+@inject IWebHostEnvironment _env
+@inject IHttpClientFactory ClientFactory
+
+<div class="m-3 text-center">
+    <h3>Downloads</h3>
+</div>
+
+<h4>EOB engineers app</h4>
+<p>Current version: 1.0</p>
+
+@if (_env.IsDevelopment())
+{    <p><b>Current environment is development. The downloads are located in the Z: drive. We don't inlcude downloads in the source control because of the large size.</b></p>}
+
+<p><a class="btn btn-primary" href="files/EngineersApp/EOB_Setup_v1.0_x64.exe" download>Download x64 (recommended)</a></p>
+<p><a class="btn btn-primary" href="files/EngineersApp/EOB_Setup_v1.0_x86.exe" download>Download x86</a></p>

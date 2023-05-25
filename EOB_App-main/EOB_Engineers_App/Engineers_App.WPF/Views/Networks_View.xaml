@@ -1,0 +1,159 @@
+﻿<views:MvxWpfView  
+    xmlns:views="clr-namespace:MvvmCross.Platforms.Wpf.Views;assembly=MvvmCross.Platforms.Wpf"
+    x:Class="Engineers_App.WPF.Views.Networks_View"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:local="clr-namespace:Engineers_App.WPF.Views" xmlns:viewmodels="clr-namespace:Engineers_App.Core.View_Models;assembly=Engineers_App.Core" d:DataContext="{d:DesignInstance Type=viewmodels:Networks_ViewModel}"
+    mc:Ignorable="d" 
+    d:DesignHeight="450" d:DesignWidth="800">
+    <views:MvxWpfView.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Card.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            
+            <Style x:Key="Caption" BasedOn="{StaticResource MaterialDesignBody1TextBlock}"
+               TargetType="{x:Type TextBlock}">
+                <Setter Property="Grid.Column" Value="0" />
+                <Setter Property="HorizontalAlignment" Value="Right" />
+                <Setter Property="Margin" Value="8 0 0 0" />
+                <Setter Property="MaxWidth" Value="90" />
+                <Setter Property="TextWrapping" Value="WrapWithOverflow" />
+                <Setter Property="TextAlignment" Value="Right" />
+            </Style>
+            <Style x:Key="Value" BasedOn="{StaticResource MaterialDesignBody2TextBlock}"
+               TargetType="{x:Type TextBlock}">
+                <Setter Property="Grid.Column" Value="1" />
+                <Setter Property="HorizontalAlignment" Value="Left" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+                <Setter Property="Margin" Value="8 0 8 0" />
+            </Style>
+
+            <DataTemplate x:Key="Network_Template">
+                <md:Card Margin="0 0 16 16">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="16" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <!--Row 0-->
+                        <md:ColorZone Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
+                                  Padding="8 8 8 4"
+                                  Mode="SecondaryDark">
+                            <TextBlock Text="{Binding name}" HorizontalAlignment="Center" Margin="0 0 0 16"
+                                   Style="{StaticResource MaterialDesignHeadline5TextBlock}"/>
+                        </md:ColorZone>
+                        <Button Grid.Row="0" Grid.Column="1" Margin="0 0 16 -20"
+                                Style="{StaticResource MaterialDesignFloatingActionMiniLightButton}"
+                                HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                                Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}, Path=DataContext.Leave_Network_Command}"
+                                CommandParameter="{Binding id}">
+                            <md:PackIcon Kind="DeleteAlert" />
+                        </Button>
+
+                        <!--Row 2-->
+                        <TextBlock Grid.Row="2" Text="ID:" Margin="0 0 0 0"
+                                   Style="{StaticResource Caption}"/>
+                        <TextBlock Grid.Row="2" Text="{Binding id}" 
+                               Style="{StaticResource Value}"/>
+
+                        <!--Row 3-->
+                        <TextBlock Grid.Row="3" Text="MAC:"
+                               Style="{StaticResource Caption}"/>
+                        <TextBlock Grid.Row="3" Text="{Binding mac}"
+                               Style="{StaticResource Value}"/>
+
+                        <!--Row 4-->
+                        <TextBlock Grid.Row="4" Text="Port Device Name:"
+                               Style="{StaticResource Caption}"/>
+                        <TextBlock Grid.Row="4" Text="{Binding portDeviceName}"
+                               Style="{StaticResource Value}"/>
+
+                        <!--Row 5-->
+                        <TextBlock Grid.Row="5" Grid.ColumnSpan="2" Margin="8"
+                                   Text="{Binding status}" HorizontalAlignment="Center"
+                                   Style="{StaticResource MaterialDesignHeadline6TextBlock}"/>
+                        
+                        <!--<StackPanel Orientation="Horizontal" Grid.Row="4" Grid.Column="1">
+                        <StackPanel>
+                            <TextBlock Text="{Binding name}"/>
+                            <TextBlock Text="{Binding id}"/>
+                            <TextBlock Text="{Binding Path=mac}"/>
+                            <TextBlock Text="{Binding Path=portDeviceName}" />
+                        </StackPanel>
+                        <TextBlock Margin="5 0 0 0" Text="{Binding status}" />
+                        <Button Content="Leave Network"
+                                    Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListBox}, Path=DataContext.Leave_Network}"
+                                    CommandParameter="{Binding id}"/>
+                    </StackPanel>-->
+                    </Grid>
+
+                </md:Card>
+            </DataTemplate>
+        </ResourceDictionary>
+    </views:MvxWpfView.Resources>
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Column="0"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Top">
+            <TextBox Text="{Binding Network_Id}" 
+                     MaxLength="16"
+                     Width="160"
+                     md:HintAssist.Hint="Network ID to join"
+                     Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                     VerticalAlignment="Center"
+                     VerticalContentAlignment="Center" 
+                     HorizontalContentAlignment="Center"/>
+                <Button Style="{StaticResource MaterialDesignRaisedSecondaryButton}"
+                    Command="{Binding Add_Ip_Command}"/>
+            </StackPanel>
+
+        <StackPanel>
+            <TextBlock Text="{Binding Network_Error_Message}"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   Margin="60"
+                   Foreground="Red"
+                   Style="{StaticResource MaterialDesignTextBlock}"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top">
+            <Button Content="Refresh" Style="{StaticResource MaterialDesignRaisedSecondaryButton}"
+                    Command="{Binding Refresh_Command}"/>
+        </StackPanel>
+
+        <ItemsControl Grid.Row="1" ItemsSource="{Binding Networks}"
+                      ItemTemplate="{StaticResource Network_Template}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+        </ItemsControl>
+    </Grid>
+    </ScrollViewer>
+</views:MvxWpfView>

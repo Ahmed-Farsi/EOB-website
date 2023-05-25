@@ -1,0 +1,285 @@
+﻿@page "/groups/{page:int?}"
+@page "/groups/selected/{selected_Id:int?}"
+@attribute [Authorize(Roles = User_Roles.Admin)]
+
+@inject IGroup_Service _group_Service
+@inject ICompany_Service _company_Service
+@inject Group_Mapper _group_Mapper
+
+@inject NavigationManager _navigation_Manager
+
+<div class="m-3 text-center">
+    <h3>Groups</h3>
+</div>
+
+@if (_form_Status == Form_Status.Disabled)
+{
+    <div class="alert alert-danger" role="alert">There are no companies yet. Please add one on the Company page.</div>
+}
+else
+{ 
+    <div class="m-3 text-center">
+        <button type="button" class="btn btn-primary" @onclick="(() => Form_New())">Add group</button>
+    </div>
+}
+
+@if (_load_Status != Load_Status.Loading
+   && _form_Status != Form_Status.None
+   && _form_Status != Form_Status.Disabled)
+{
+    if (_form_Status == Form_Status.Edit)
+    {
+        <h4>@_form_Status - @_group_View.Name</h4>
+    }
+    else
+    { 
+        <h4>@_form_Status</h4>
+    }
+
+    <EditForm Model="@_group_View" OnValidSubmit="Save" class="card card-body mt-5 inputForm">
+        <DataAnnotationsValidator />
+        <div class="form-group row">
+            <label for="Name" class="col-md-2 col-form-label">Group Name</label>
+            <div class="col-md-10">
+                <InputText type="text" id="Name" class="inputBoxStripe noMarginBottom" @bind-Value="_group_View.Name" />
+                <ValidationMessage For="@(() => _group_View.Name)" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="Department" class="col-md-2 col-form-label">Department</label>
+            <div class="col-md-10">
+                <InputText type="text" id="Department" class="inputBoxStripe noMarginBottom" @bind-Value="_group_View.Department" />
+                <ValidationMessage For="@(() => _group_View.Department)" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="Company_Id" class="col-md-2 col-form-label">Company</label>
+            <div class="col-md-10">
+                <InputSelect id="Company_Id" class="inputBoxStripe noMarginBottom" @bind-Value="_group_View.Company_Id">
+                    <option value="0">Select Company...</option>
+                    @foreach (var company in _companies)
+                    { 
+                        <option value="@company.Id">@company.Name</option>
+                    }
+                </InputSelect>
+                <ValidationMessage For="@(() => _group_View.Company_Id)" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-md-10">
+                <button type="button" class="btn btn-danger" @onclick="(() => Form_Cancel())">Cancel</button>
+                <button type="submit" class="btn btn-success">Submit</button>
+            </div>
+        </div>
+    </EditForm>
+}
+
+@if (_load_Status == Load_Status.Success)
+{
+    @if (!_groups.Paginate(_pagination).Any())
+    {
+        _navigation_Manager.NavigateTo("groups/1");
+    }
+
+    <form class="m-2" @onsubmit="Search">
+        <input type="text" placeholder="Search..." id="Search" class="inputBoxStripe noMarginBottom" @bind="_search" />
+        <button type="submit" class="btn btn-success">Search</button>
+    </form>
+
+    <div class="table-responsive">
+        <table class="table table-dark table-striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Department</th>
+                    <th>Company</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var group in _groups.Paginate(_pagination))
+                {
+                    <tr style="background:@Get_Selected_Color(group.Id)">
+                        <td>@group.Name</td>
+                        <td>@group.Department</td>
+                        <td><a href="/companies/selected/@group.Company.Id">@group.Company.Name</a></td>
+                        <td>
+                            <div class="btn-group">
+                                <button class="btn btn-primary" @onclick="(() => Form_Edit(group))">Edit</button>
+                                <button class="btn btn-danger" @onclick="(() => Popup_Open(Popup_Status.Delete, group))">Delete</button>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <Pagination_Select
+        Page_Name="groups"
+        Page_Number="@_pagination.Page_Number"
+        Total_Items="@_groups.Count"
+        Page_Size="@_pagination.Page_Size">
+    </Pagination_Select>
+}
+else
+{ 
+    <p><em>@_load_Status</em></p>
+}
+
+@switch (_popup_Status)
+{
+    case Popup_Status.Delete:
+        <Popup
+            Status="_popup_Status"
+            Text="Are you sure you want to delete this item?"
+            Ok_Text="Delete"
+            On_Ok="(() => Delete(_group_Selection))"
+            On_Cancel="(() => Popup_Close())">
+        </Popup>
+        break;
+
+    case Popup_Status.Foreign_Key_Error:
+        <Popup
+            Status="Popup_Status.Error"
+            Text="The group you're trying to remove has EOBs attached it. Please remove them first."
+            Ok_Text="Delete"
+            On_Ok="(() => Popup_Close())">
+        </Popup>
+        break;
+}
+
+@code {
+    private List<Group> _groups = new List<Group>();
+    private List<Company> _companies = new List<Company>();
+
+    private Group_View _group_View = new Group_View();
+    private Group _group_Selection = new Group();
+    private Pagination _pagination = new Pagination();
+
+    private Load_Status _load_Status;
+    private Form_Status _form_Status;
+    private Popup_Status _popup_Status;
+    private string _search = string.Empty;
+
+    [Parameter]
+    public int Selected_Id { get; set; }
+
+    [Parameter]
+    public int Page
+    {
+        get => _pagination.Page_Number;
+        set
+        {
+            if (_pagination.Page_Number != value)
+            {
+                _pagination.Page_Number = value;
+            }
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (Page == 0)
+            Page = 1;
+
+        await Refresh();
+    }
+
+    protected async Task Refresh()
+    {
+        _groups = await _group_Service.Get_All();
+        _companies = await _company_Service.Get_All();
+
+        if (_groups.Any())
+        {
+            if (Selected_Id != 0)
+            {
+                int index = _groups.FindIndex(x => x.Id == Selected_Id);
+                Page = Pagination_Helper.Get_Page(index, _pagination);
+            }
+
+            _load_Status = Load_Status.Success;
+        }
+        else
+        {
+            _load_Status = Load_Status.Empty;
+        }
+
+        if (!_companies.Any())
+            _form_Status = Form_Status.Disabled;
+        else
+            _form_Status = Form_Status.None;
+
+        _group_View = new();
+    }
+
+    private async Task Save()
+    {
+        var group = _group_Mapper.View_To_Model(_group_View);
+
+        if (_form_Status == Form_Status.New)
+            await _group_Service.Create(group);
+        if (_form_Status == Form_Status.Edit)
+            await _group_Service.Update(group);
+
+        await Refresh();
+    }
+
+    private async Task Delete(Group group)
+    {
+        bool result = await _group_Service.Delete(group.Id);
+
+        if (!result)
+        {
+            Popup_Open(Popup_Status.Foreign_Key_Error);
+            return;
+        }
+
+        Popup_Close();
+        await Refresh();
+    }
+
+    private void Form_New()
+    {
+        _form_Status = Form_Status.New;
+        _group_View = new();
+    }
+
+    private void Form_Edit(Group group)
+    {
+        _group_Mapper.Model_To_View(group, _group_View);
+        _form_Status = Form_Status.Edit;
+    }
+
+    private void Form_Cancel()
+    {
+        _form_Status = Form_Status.None;
+        _group_View = new();
+    }
+
+    private void Popup_Open(Popup_Status state, Group group = null)
+    {
+        _popup_Status = state;
+        _group_Selection = group;
+    }
+
+    private void Popup_Close()
+    {
+        _popup_Status = Popup_Status.None;
+        _group_Selection = new();
+    }
+
+    private string Get_Selected_Color(int id)
+    {
+        if (id == Selected_Id)
+            return "#62666a";
+
+        return string.Empty;
+    }
+
+    private async Task Search()
+    {
+        _groups = await _group_Service.Search(_search);
+    }
+}

@@ -1,0 +1,124 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <Name>Eob_Web.Data</Name>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectVersion>4.1</ProjectVersion>
+    <ProjectGuid>{6376ee07-9e34-4652-b15c-448f40b86790}</ProjectGuid>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.SqlAzureV12DatabaseSchemaProvider</DSP>
+    <OutputType>Database</OutputType>
+    <RootPath>
+    </RootPath>
+    <RootNamespace>Eob_Web.Data</RootNamespace>
+    <AssemblyName>EOB_Web.Data</AssemblyName>
+    <ModelCollation>1033, CI</ModelCollation>
+    <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
+    <DeployToDatabase>True</DeployToDatabase>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <TargetLanguage>CS</TargetLanguage>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <SqlServerVerification>False</SqlServerVerification>
+    <IncludeCompositeObjects>True</IncludeCompositeObjects>
+    <TargetDatabaseSet>True</TargetDatabaseSet>
+    <TargetFrameworkProfile />
+    <TargetDatabase>Eob_Web.Data</TargetDatabase>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
+    <!-- Default to the v11.0 targets path if the targets file for the current VS version is not found -->
+    <SSDTExists Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets')">True</SSDTExists>
+    <VisualStudioVersion Condition="'$(SSDTExists)' == ''">11.0</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Condition="'$(SQLDBExtensionsRefPath)' != ''" Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <ItemGroup>
+    <Folder Include="Properties" />
+    <Folder Include="dbo" />
+    <Folder Include="publish_profiles\" />
+    <Folder Include="dbo\Stored_Procedures" />
+    <Folder Include="dbo\Tables" />
+    <Folder Include="dbo\Stored_Procedures\Eob" />
+    <Folder Include="dbo\Stored_Procedures\Company" />
+    <Folder Include="dbo\Stored_Procedures\Group" />
+    <Folder Include="dbo\Stored_Procedures\User" />
+    <Folder Include="dbo\Stored_Procedures\Subscription" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="dbo\Tables\Eob.sql" />
+    <Build Include="dbo\Stored_Procedures\Eob\usp_Eob_Update.sql" />
+    <Build Include="dbo\Stored_Procedures\Eob\usp_Eob_Create.sql" />
+    <Build Include="dbo\Stored_Procedures\Eob\usp_Eob_Delete.sql" />
+    <Build Include="dbo\Stored_Procedures\Eob\usp_Eob_Get_All.sql" />
+    <Build Include="dbo\Stored_Procedures\Eob\usp_Eob_Get_By_Id.sql" />
+    <Build Include="dbo\Stored_Procedures\Company\usp_Company_Create.sql" />
+    <Build Include="dbo\Stored_Procedures\Company\usp_Company_Delete.sql" />
+    <Build Include="dbo\Stored_Procedures\Company\usp_Company_Get_All.sql" />
+    <Build Include="dbo\Stored_Procedures\Company\usp_Company_Get_By_Id.sql" />
+    <Build Include="dbo\Stored_Procedures\Company\usp_Company_Update.sql" />
+    <Build Include="dbo\Tables\Company.sql" />
+    <Build Include="dbo\Tables\Group.sql" />
+    <Build Include="dbo\Stored_Procedures\Group\usp_Group_Create.sql" />
+    <Build Include="dbo\Stored_Procedures\Group\usp_Group_Delete.sql" />
+    <Build Include="dbo\Stored_Procedures\Group\usp_Group_Get_All.sql" />
+    <Build Include="dbo\Stored_Procedures\Group\usp_Group_Get_By_Id.sql" />
+    <Build Include="dbo\Stored_Procedures\Group\usp_Group_Update.sql" />
+    <Build Include="dbo\Stored_Procedures\Group\usp_Group_Get_All_By_Company_Id.sql" />
+    <Build Include="dbo\Stored_Procedures\Group\usp_Group_Get_By_Company_Id.sql" />
+    <Build Include="dbo\Stored_Procedures\Eob\usp_Eob_Get_All_By_Company_Id.sql" />
+    <Build Include="dbo\Stored_Procedures\Eob\usp_Eob_Get_By_Company_Id.sql" />
+    <Build Include="dbo\Stored_Procedures\Eob\usp_Eob_Get_By_Node_Id.sql" />
+    <Build Include="dbo\Stored_Procedures\Company\usp_Company_Get_By_Invitation_Code.sql" />
+    <Build Include="dbo\Tables\User.sql" />
+    <Build Include="dbo\Stored_Procedures\User\usp_User_Update.sql" />
+    <Build Include="dbo\Stored_Procedures\User\usp_User_Create.sql" />
+    <Build Include="dbo\Stored_Procedures\User\usp_User_Delete.sql" />
+    <Build Include="dbo\Stored_Procedures\User\usp_User_Get_All.sql" />
+    <Build Include="dbo\Stored_Procedures\User\usp_User_Get_All_By_Company_Id.sql" />
+    <Build Include="dbo\Stored_Procedures\User\usp_User_Get_By_Company_Id.sql" />
+    <Build Include="dbo\Stored_Procedures\User\usp_User_Get_By_Id.sql" />
+    <Build Include="dbo\Tables\User_Group.sql" />
+    <Build Include="dbo\Stored_Procedures\User\usp_User_Create_User_Group.sql" />
+    <Build Include="dbo\Stored_Procedures\User\usp_User_Delete_User_Group.sql" />
+    <Build Include="dbo\Stored_Procedures\User\usp_User_Get_All_User_Group.sql" />
+    <Build Include="dbo\Stored_Procedures\User\usp_User_Delete_All_User_Group.sql" />
+    <Build Include="dbo\Stored_Procedures\User\usp_User_Get_All_By_Recieve_Email.sql" />
+    <Build Include="dbo\Stored_Procedures\Eob\usp_Eob_Get_By_Network_Id.sql" />
+    <Build Include="dbo\Tables\Subscription.sql" />
+    <Build Include="dbo\Stored_Procedures\Subscription\usp_Subscription_Update.sql" />
+    <Build Include="dbo\Stored_Procedures\Subscription\usp_Subsciption_Create.sql" />
+    <Build Include="dbo\Stored_Procedures\Subscription\usp_Subscription_Delete.sql" />
+    <Build Include="dbo\Stored_Procedures\Subscription\usp_Subscription_Get_All.sql" />
+    <Build Include="dbo\Stored_Procedures\Subscription\usp_Subscription_Get_All_By_Company_Id.sql" />
+    <Build Include="dbo\Stored_Procedures\Subscription\usp_Subscription_Get_By_Company_Id.sql" />
+    <Build Include="dbo\Stored_Procedures\Subscription\usp_Subscription_Get_By_Id.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="publish_profiles\EOB_Data_Azure.publish.xml" />
+    <None Include="publish_profiles\EOB_Data.publish.xml" />
+  </ItemGroup>
+</Project>

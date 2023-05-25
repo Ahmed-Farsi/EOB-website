@@ -1,0 +1,8 @@
+﻿CREATE PROCEDURE [dbo].[usp_Group_Delete]
+	@Id INT OUTPUT
+AS
+BEGIN
+	DELETE FROM [Group]
+	OUTPUT DELETED.[Id]
+	WHERE [Id] = @Id;
+END

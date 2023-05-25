@@ -1,162 +1,228 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-    <title>EOB - Product Website</title>
-    <link rel="stylesheet" type="text/css" href="css/about.css">
-  </head>
-  <body>
+<head>
+	<title>EOB - Remote support</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="css/about.css">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital@1&family=Roboto+Condensed:ital,wght@0,300;1,300&family=Roboto:ital,wght@0,100;1,400&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Scroll to the top btn -->
+	<div id="progress">
+		<span id="progress-value">&#x1F815;</span>
+	  </div>
+
+	  <!-- Header -->
     <header>
-      <nav class="navbar">
-        <div class="brand-wrapper">
-          <a href="eob.html">
-            <img class="logo" src="images/LogoHeader-Transparent.png" alt="Logo">
-          </a> 
-        </div>
-        <ul class="nav-menu">
-          <li><a href="eob.html">Home</a></li>
-          <li><a href="about.html">About</a></li>
-          <li><a href="eob.html#subs">Subscription</a></li>
-          <li><a href="contact.html">Contact</a></li>
-        </ul> 
-        <button class="hamburger">
-          <div class="bar"></div> 
-        </button>
-        <div class="sign-btn">
-          <!-- De knop voor het inloggen -->
-          <button class="menu-toggle">
-            <a class="btn-link" href="https://app.engineeroutofthebox.com/Identity/Account/Login">
-              Login EOB
-            </a>
-        </button>  
-        <!-- De knop voor het registreren -->
-          <button class="menu-toggle">
-            <a class="btn-link" href="https://app.engineeroutofthebox.com/Identity/Account/Register?returnUrl=%2F">
-              Create Acc
-            </a>
-          </button>  
-        </div>
-      </nav>
-    </header>
+		<nav class="navbar"> <!-- Het navigatie gedeelte van de webpagina -->
+		  <div class="brand-wrapper">
+			<a href="eob.html"> <!-- De link naar de Home pagina -->
+			  <img class="logo" src="images/LogoHeader-Transparent.png" alt="Logo">
+			</a> 
+		  </div>
+		  <ul class="nav-menu"> <!-- De lijst met links in het navigatie menu -->
+			<li><a href="eob.html">Home</a></li>
+			<li><a href="about.html">About</a></li>
+			<li><a href="eob.html#subs">Subscription</a></li>
+			<li><a href="contact.html">Contact</a></li>
+		  </ul> 
+		  <button class="hamburger"> <!-- De knop voor het menu op mobiele apparaten -->
+			<div class="bar"></div>
+		  </button>
+		  <div class="sign-btn">
+			<button class="menu-toggle"><a class="btn-link" href="https://app.engineeroutofthebox.com/Identity/Account/Login"> Login EOB</a></button>  <!-- De knop voor het inloggen -->
+			<button class="menu-toggle"><a class="btn-link" href="https://app.engineeroutofthebox.com/Identity/Account/Register?returnUrl=%2F">Create Acc</a></button>  <!-- De knop voor het registreren -->
+		  </div>
+		</nav>
+	  </header>   
+	  <nav class="mobile-nav"> <!-- Het menu voor mobiele apparaten -->
+		<a href="eob.html">Home</a>
+		<a href="about.html">About</a>
+		<a href="eob.html#subs">Subscription</a>
+		<a href="contact.html">Contact</a>
+		<a href="https://app.engineeroutofthebox.com/Identity/Account/Login">Sign In </a> <!-- De link naar het inloggen -->
   
-    <nav class="mobile-nav">
-      <a href="eob.html">Home</a>
-      <a href="about.html">About</a>
-      <a href="eob.html#subs">Subscription</a>
-      <a href="contact.html">Contact</a>
-      <a href="#">Sign In</a>
-      <a href="#">Sign Up</a>
-    </nav>
-    <main>
+		<a href="#">Sign Up</a>  <!-- De link naar het registreren -->
+	  </nav>
 
+	<main>
+		<h1>About Engineer out of the Box</h1>
+		<div class="explanation">
+			<div class="text">
+			  <h1>We Help Companies Streamline Their Remote Support Operations with EOB</h1>
+				<p>
+				  At EOB, we understand that providing remote support to your team and customers can be a challenge, but it doesn’t have to be. That’s why we’ve developed a solution that helps companies streamline their remote support operations, so they can save time, reduce costs, and increase efficiency.
+				</p>  
+				<p>
+				  With EOB, you can connect with your team and customers from anywhere in the world, providing support quickly and efficiently without the need for physical visits. EOB’s user-friendly interface and intuitive design make it easy to troubleshoot problems, provide technical support, and collaborate on projects, no matter where your team is located.
+				</p>
+				<p>
+				  In addition, EOB’s secure and private system ensures that all communication and data exchange are protected, giving you peace of mind when dealing with sensitive information. So if you’re looking to streamline your remote support operations, try EOB today and experience the benefits for yourself.
+				</p>
+				  
+				 </div>
+			  <div class="img">
+				<img src="images/about-us.jpg" alt="Foto">
+			</div>
+		  </div>
+		  
+		  <div class="opinion">
+			<div class="figure">
+			  <figure>
+				<img decoding="async" src="images/Rimco_visser.jpg" alt="" class="wp-image-235" style="margin-right: 10px; border-radius: 50%;">
+				<img decoding="async" src="images/Robert_mathijssen.jpg" alt="" class="wp-image-235" style="margin-right: 10px; border-radius: 50%;">
+			  </figure>
+			</div>
+			<p class="opn">
+			  “At EOB, we believe that providing remote support should be easy, efficient, and secure. 
+			  That’s why we’ve developed a solution that allows you to connect with your team and support your customers no matter where you are in the world. 
+			  With the EOB, you can reduce costs, save time, and increase productivity while keeping your data safe and protected. 
+			  Try the EOB today and see how remote support can transform your business.”
+			</p>
+			<p class="name-owners">Rimco Visser / Robert Mathijssen</p>
+		  </div>
 
-        <h2>About EOB</h2>
+		<div class="container">
+			<section class="intro">
+			<h2>Welcome to EOB</h2>
+			<p>Welcome to the 'About EOB' page of Pro Control, where we introduce our product EOB. EOB stands for 'Engineer Out of the Box' and is an innovative product that enables remote support to be provided in a fast, efficient and secure manner.
+				<br><br>
+				At EOB we believe that every organization, large or small, deserves the best technical support. With the EOB it is possible to have an engineer on board remotely, without the need for a physical presence. This offers many advantages, including saving time and money for both the engineer and the employee on site.
+				<br><br>
+				The EOB is designed with the latest technologies, including a camera, microphone and box, and a chat function. With these functions, an engineer can remotely control the employee on site and watch them solve technical problems. All this is done via a secure and reliable connection, which always guarantees the privacy of the users.
+				<br><br>
+				At Pro Control we have paid a lot of attention to the user-friendliness of the EOB. The product is intuitively designed, making it easy for anyone to use. This makes the EOB an ideal solution for organizations that need technical support quickly, where physical contact is not an option.
+				<br><br>
+				We are proud to offer EOB to our customers, and we are confident that it will become an indispensable tool for any organization working remotely. We continue to innovate and improve so that we can always offer the best solutions for our customers.
+				<br><br>
+				Thank you for your interest in Pro Control and our EOB. For more information or questions you can always contact us.</p>
+		</section>
 
+		<section id="information-eob">
+			<div class="safe-working">
+			  <h1>Safe way of <span>working</span></h1>
+			  <br>
+			  <p>
+				Although the EOB works remotely, it is a safe way, protecting the interests of the customer and the service engineer.
+			  </p>
+			  <ul class="list-sw" style="line-height: 2; margin-top: 10px;">
+				<li>The EOB is a box with a touch screen that can only be placed on location at the desired time in case of calamities and can be removed when the problem has been solved</li>
+				<li>It works independently of the corporate network, so the corporate network cannot be hacked through the EOB</li>
+				<li>The EOB also works when no computer is present</li>
+				<li>The EOB is very user-friendly; no software needs to be installed anywhere</li>
+				<li>The EOB is robust and can be placed anywhere</li>
+				<li>Only one EOB is needed per location</li>
+			  </ul>
+			</div>
+		  
+			<div class="ease-of-use" style="margin-top: 40px;">
+			  <h1><span>Ease of use</span></h1>
+			  <br>
+			  <p>
+				In the event of an emergency, the EOB is taken and placed on the desk. A plug in the socket, plug a camera into the box and log in via WiFi (use Guest WiFi). That's all it takes to connect. The box can be placed anywhere, provided there is power nearby and a reasonable reception.
+				The EOB can be used for several machines or departments. Assuming that there are no faults on several systems at the same time.
+			  </p> 
+			</div>
+		  
+			<div class="subs" style="margin-top: 40px;">
+			  <h1><span>Subscription</span></h1>
+			  <br>
+			  <p>
+				The EOB works according to a subscription structure. When the subscription is taken out, the EOB will be sent and a monthly subscription fee will be debited.
+				The subscription that has been taken out is not automatically renewed. However: if at the end of the subscription period the EOB has not been returned within one month after termination, the subscription will be extended for the same subscription period, with retroactive effect.
+				<br><br>
+				For more information, see the EPO website
+				<br>
+			  </p>
+			  <br>
+			  <a href="https://app.engineeroutofthebox.com/">https://app.engineeroutofthebox.com/</a>
+			</div>
+		  </section>
 
-<!-- Het gedeelte van de webpagina met informatie over remote support -->
-<section id="support">
-  <div class="sup">
-    <h1>Introducing EOB: Engineer On Board - Remote Support Made Easy with Pro Control</h1>
-    <p> 
-      Welcome to the 'About EOB' page of Pro Control, where we introduce our product EOB. EOB stands for 'Engineer On Board' and is an innovative product that enables remote support to be provided in a fast, efficient and secure manner.
-      <br><br>
-      At Pro Control we believe that every organization, large or small, deserves the best technical support. With the EOB it is possible to have an engineer on board remotely, without the need for a physical presence. This offers many advantages, including saving time and money for both the engineer and the employee on site.
-      <br><br>
-      The EOB is designed with the latest technologies, including a camera, microphone and box, and a chat function. With these functions, an engineer can remotely control the employee on site and watch them solve technical problems. All this is done via a secure and reliable connection, which always guarantees the privacy of the users.
-      <br><br>
-      At Pro Control we have paid a lot of attention to the user-friendliness of the EOB. The product is intuitively designed, making it easy for anyone to use. This makes the EOB an ideal solution for organizations that need technical support quickly, where physical contact is not an option.
-      <br><br>
-      We are proud to offer EOB to our customers, and we are confident that it will become an indispensable tool for any organization working remotely. We continue to innovate and improve so that we can always offer the best solutions for our customers.
-      <br><br>
-      Thank you for your interest in Pro Control and our EOB. For more information or questions you can always contact us.
-    </p>
-  </div>
-</section>
+		<section class="services">
+			<h2>Our services</h2>
+			<p>EOB provides remote support for various types of devices, including computers, smartphones, tablets and smart home devices. We believe it should be easy to solve technical problems, which is why we offer a subscription that gives you access to our support. With our subscription, you can reach us 24/7 and we will help you solve your problems wherever you are.</p>
+			<a href="#" class="cta">Close subscription</a>
+		</section>
 
-<section id="information-eob">
-  <div class="safe-working">
-    <h1>Safe way of <span>working</span></h1>
-    <br>
-    <p>
-      Although the EOB works remotely, it is a safe way, protecting the interests of the customer and the service engineer.
-    </p>
-    <ul class="list-sw">
-      <li>The EOB is a box with a touch screen that can only be placed on location at the desired time in case of calamities and can be removed when the problem has been solved</li>
-      <li>It works independently of the corporate network, so the corporate network cannot be hacked through the EOB</li>
-      <li>The EOB also works when no computer is present</li>
-      <li>The EOB is very user-friendly; no software needs to be installed anywhere</li>
-      <li>The EOB is robust and can be placed anywhere</li>
-      <li>Only one EOB is needed per location</li>
-    </ul>
-  </div>
+		<section class="team">
+			<h2>Our team</h2>
+			<p>Our team is made up of passionate professionals who are committed to providing quality services to our clients. We have years of experience in the IT sector and we pride ourselves on our expertise and skills. We believe that our customers deserve the best service and we will do everything we can to meet their expectations.</p>
+			<div class="team-members">
+				<div class="team-member">
+					<img src="https://via.placeholder.com/150" alt="Team member 1">
+					<h3>Name team member 1</h3>
+					<p>Function team member 1</p>
+				</div>
+				<div class="team-member">
+					<img src="https://via.placeholder.com/150" alt="Team member 2">
+					<h3>Name team member 2</h3>
+					<p>Function team member 2</p>
+				</div>
+                <div class="team-member">
+					<img src="https://via.placeholder.com/150" alt="Team member 3">
+					<h3>Name team member 3</h3>
+					<p>Function team member 3</p>
+				</div>
+			</div>
+		</section>
 
-  <div class="ease-of-use">
-    <h1><span>Ease of use</span></h1>
-    <br>
-    <p>
-      In the event of an emergency, the EOB is taken and placed on the desk. A plug in the socket, plug a camera into the box and log in via WiFi (use Guest WiFi). That's all it takes to connect. The box can be placed anywhere, provided there is power nearby and a reasonable reception.
-      The EOB can be used for several machines or departments. Assuming that there are no faults on several systems at the same time.
-    </p> 
-  </div>
+		<section class="accomplishments">
+			<h2>Our achievements</h2>
+			<p>We are proud of what we have achieved and we would like to share it with you:</p>
+			<ul>
+				<li>More than 1000 satisfied customers</li>
+				<li>Average customer satisfaction score of 4.9/5</li>
+			</ul>
+		</section>
+		</div>
+		
+	</main>
 
-  <div class="subs">
-    <h1><span>Subscription</span></h1>
-    <br>
-    <p>
-      The EOB works according to a subscription structure. When the subscription is taken out, the EOB will be sent and a monthly subscription fee will be debited.
-      The subscription that has been taken out is not automatically renewed. However: if at the end of the subscription period the EOB has not been returned within one month after termination, the subscription will be extended for the same subscription period, with retroactive effect.
-      <br><br>
-      For more information, see the EPO website
-      <br>
-      <a href="https://app.engineeroutofthebox.com/">https://app.engineeroutofthebox.com/</a>
-    </p>
-  </div>
-</section>
-</main>
+	<footer>
+		<!-- Het gedeelte van de footer -->
+		<div class="section footer wf-section">
+		  <div class="w-container">
+			<div class="w-row">
+			  <div class="footer-column w-col w-col-3">
+				<h4>COMPANY</h4>
+				<ul role="list" class="w-list-unstyled">
+				  <li><a href="eob.html" class="footer-link">Home</a></li>
+				  <li><a href="about.html" class="footer-link">About</a></li>
+				  <li><a href="#subs" class="footer-link">Subscription</a></li>
+				</ul>
+			  </div>
+			  <div class="footer-column w-col w-col-3">
+				<h4>get help</h4>
+				<ul role="list" class="w-list-unstyled">
+				  <li><a href="#" class="footer-link">Frequently Asked Questions</a></li>
+				  <li><a href="#" class="footer-link">Forum</a></li>
+				  <li><a href="contact.html" class="footer-link">Contact Us</a></li>
+				</ul>
+			  </div>
+			  <div class="footer-column w-col w-col-3"><h4>Boring Stuff</h4>
+				<ul role="list" class="w-list-unstyled">
+				  <li><a href="#" class="footer-link">Privacy Policy</a></li>
+				  <li><a href="#" class="footer-link">Terms of Service</a></li>
+				</ul>
+			  </div>
+			  <div class="footer-column w-col w-col-3">
+				<div><h4>Socials</h4>
+				  <a href="https://www.linkedin.com/company/pro-control-process-automation-b-v-/mycompany/" target="_blank" class="social-link w-inline-block">
+				  <img src="https://cdn.iconscout.com/icon/free/png-256/linkedin-82-434743.png?f=webp&w=256" alt=""></a>
+				  <a href="https://www.youtube.com/@procontrolprocessautomatio212" target="_blank" class="social-link w-inline-block">
+					<img src="https://spng.pngfind.com/pngs/s/320-3200493_white-youtube-logo-transparent-youtube-circle-icon-size.png" alt=""></a></div>
+				  <div class="logo-text footer">Engineer-on-board</div>
+				</div>
+			  </div>
+			</div>
+		  </div>
+	  </footer>
 
-<footer>
-  <!-- Het gedeelte van de footer -->
-  <div class="section footer wf-section">
-    <div class="w-container">
-      <div class="w-row">
-        <div class="footer-column w-col w-col-3">
-          <h4>COMPANY</h4>
-          <ul role="list" class="w-list-unstyled">
-            <li><a href="eob.html" class="footer-link">Home</a></li>
-            <li><a href="about.html" class="footer-link">About</a></li>
-            <li><a href="#subs" class="footer-link">Subscription</a></li>
-          </ul>
-        </div>
-        <div class="footer-column w-col w-col-3">
-          <h4>get help</h4>
-          <ul role="list" class="w-list-unstyled">
-            <li><a href="#" class="footer-link">Frequently Asked Questions</a></li>
-            <li><a href="#" class="footer-link">Forum</a></li>
-            <li><a href="contact.html" class="footer-link">Contact Us</a></li>
-          </ul>
-        </div>
-        <div class="footer-column w-col w-col-3"><h4>Boring Stuff</h4>
-          <ul role="list" class="w-list-unstyled">
-            <li><a href="#" class="footer-link">Privacy Policy</a></li>
-            <li><a href="#" class="footer-link">Terms of Service</a></li>
-          </ul>
-        </div>
-        <div class="footer-column w-col w-col-3">
-          <div><h4>Socials</h4>
-            <a href="https://www.linkedin.com/company/pro-control-process-automation-b-v-/mycompany/" target="_blank" class="social-link w-inline-block">
-            <img src="https://cdn.iconscout.com/icon/free/png-256/linkedin-82-434743.png?f=webp&w=256" alt=""></a>
-            <a href="https://www.youtube.com/@procontrolprocessautomatio212" target="_blank" class="social-link w-inline-block">
-              <img src="https://spng.pngfind.com/pngs/s/320-3200493_white-youtube-logo-transparent-youtube-circle-icon-size.png" alt=""></a></div>
-            <div class="logo-text footer">Engineer-on-board</div>
-          </div>
-        </div>
-      </div>
-    </div>
-</footer>
-<script src="js/hmMenu.js"></script>
+	<script src="js/scrolltop.js"></script>
+	<script src="js/hamMenu.js"></script>
 </body>
 </html>
-
-
