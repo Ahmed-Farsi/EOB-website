@@ -2,7 +2,7 @@ let currentStep = 0;
 const steps = document.querySelectorAll('.step');
 const progressItems = document.querySelectorAll('.step-wizard-item');
 const stepLinks = document.querySelectorAll('.step-link');
-const delay = 15000; // Aanpassen naar de gewenste vertraging (in milliseconden)
+const delay = 20000; // Aanpassen naar de gewenste vertraging (in milliseconden)
 
 function showStep(index) {
   steps[currentStep].classList.remove('current');

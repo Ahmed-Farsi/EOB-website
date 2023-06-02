@@ -1,5 +1,12 @@
 @media only screen and (min-width: 768px) {
 
+	.intro-text{
+		width: 50%;
+	}
+
+	.intro-img{
+		width: 50%;
+	}
 	html{
 		scroll-behavior: smooth;
 	}
@@ -554,7 +561,7 @@ nav .menu li a:hover {
 	font-size: 4rem;
 	color: transparent;
 	z-index: 0;
-	opacity: .4;
+	opacity: .7;
 	-webkit-text-stroke: 1px #9C27B0!important;
 }
 
