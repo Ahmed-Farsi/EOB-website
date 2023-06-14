@@ -1,0 +1,9 @@
+Duidelijkheid over wat ik heb gemaakt bij dit project
+
+Ik heb bij dit project alles gemaakt behalve de EOB_APP, die hebben collega's voornamelijk gemaakt. 
+Wat ik heb gedaan aan de app is de subscriptionpage.razor gemaakt en ik heb gewerkt aan de page MyEOBs.razor in de map company hier geef ik navigatie voor.
+
+Hier is de navigatie over wat ik heb gemaakt in de EOB_APP:
+EOB_APP-main/EOB_WEB_APP/Eob_web.frontend/pages/subscriptionpage.razor
+
+EOB_APP-main/EOB_WEB_APP/Eob_web.frontend/pages/Company/My_EObs.razor
